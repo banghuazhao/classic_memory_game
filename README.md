@@ -2,6 +2,8 @@
 
 A Flutter memory card-matching game for iOS and Android. Flip cards to find matching pairs across multiple game modes, themes, and difficulty levels.
 
+[![Download on the App Store](https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg)](https://apps.apple.com/app/memory-games-match-pairs-card/id1617593078)
+
 ## Features
 
 - **Levels mode** — 15 timed levels with increasing grid sizes and time pressure
@@ -37,7 +39,11 @@ cp ios/Flutter/AdsConfig.xcconfig.example ios/Flutter/AdsConfig.xcconfig
 # Edit ios/Flutter/AdsConfig.xcconfig with your real iOS AdMob app ID
 ```
 
-**Android (app ID):** The production app ID is in `android/app/src/main/AndroidManifest.xml`. The debug manifest (`android/app/src/debug/AndroidManifest.xml`) uses the AdMob test app ID automatically.
+**Android (app ID):** Add your production AdMob app ID to `android/local.properties` (already gitignored):
+```
+admob.applicationId=ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX
+```
+The debug manifest uses the AdMob test app ID automatically. Without `admob.applicationId` set, the test ID is used as fallback.
 
 Debug builds use [AdMob test IDs](https://developers.google.com/admob/ios/test-ads) automatically — no config needed.
 
