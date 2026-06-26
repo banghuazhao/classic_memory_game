@@ -1,0 +1,3 @@
+// Copy this file to AdsConfig.xcconfig and replace with your real AdMob iOS app ID.
+// AdsConfig.xcconfig is git-ignored to keep the production app ID out of version control.
+GAD_APPLICATION_IDENTIFIER = ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX

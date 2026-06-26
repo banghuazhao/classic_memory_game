@@ -1,0 +1,13 @@
+// Copy this file to ads_config.dart and replace with your real AdMob ad unit IDs.
+// ads_config.dart is git-ignored to keep production IDs out of version control.
+class AdsConfig {
+  // iOS
+  static const String iOSBannerAdUnitId = "ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX";
+  static const String iOSOpenAdUnitId = "ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX";
+  static const String iOSInterstitialAdUnitId = "ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX";
+
+  // Android
+  static const String androidBannerAdUnitId = "ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX";
+  static const String androidOpenAdUnitId = "ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX";
+  static const String androidInterstitialAdUnitId = "ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX";
+}
