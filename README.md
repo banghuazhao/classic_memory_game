@@ -12,6 +12,24 @@ A Flutter memory card-matching game for iOS and Android. Flip cards to find matc
 - **6 card themes** — Candy, Fruit, Animal, Emoji, Number, Symbol
 - **Localization** — English, Simplified Chinese, Traditional Chinese
 - **Background music & sound effects**
+- **In-app review** — prompts at session milestones
+
+## Requirements
+
+- Flutter 3.44+ / Dart 3.12+
+- Xcode 15+ (iOS)
+- Android SDK 36, NDK 28.2, AGP 8.11+
+
+## Getting Started
+
+```bash
+flutter pub get
+flutter run
+```
+
+For iOS, run `pod install` in the `ios/` directory if needed.
+
+Before running, set up your ad IDs (see [Ad Monetization](#ad-monetization) below).
 
 ## Ad Monetization
 
@@ -23,9 +41,11 @@ The app uses Google AdMob with:
 | App Open | On app foreground resume |
 | Interstitial | After theme change (Home), after completing a level or challenge |
 
-### Setting up ad IDs
+Debug builds use [AdMob test IDs](https://developers.google.com/admob/ios/test-ads) automatically — no config needed.
 
-Production ad IDs are kept out of version control. Before building for release, copy the example files and fill in your real IDs:
+### Setting up production ad IDs
+
+Production ad IDs are kept out of version control. Copy the example files and fill in your real IDs before a release build:
 
 **Dart (ad unit IDs):**
 ```bash
@@ -39,47 +59,59 @@ cp ios/Flutter/AdsConfig.xcconfig.example ios/Flutter/AdsConfig.xcconfig
 # Edit ios/Flutter/AdsConfig.xcconfig with your real iOS AdMob app ID
 ```
 
-**Android (app ID):** Add your production AdMob app ID to `android/local.properties` (already gitignored):
+**Android (app ID):** Add to `android/local.properties` (already gitignored):
 ```
 admob.applicationId=ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX
 ```
-The debug manifest uses the AdMob test app ID automatically. Without `admob.applicationId` set, the test ID is used as fallback.
 
-Debug builds use [AdMob test IDs](https://developers.google.com/admob/ios/test-ads) automatically — no config needed.
+Without `admob.applicationId` set, the AdMob test app ID is used as a fallback.
 
-## Getting Started
+## Building for Release
 
-**Prerequisites:** Flutter SDK, Xcode (iOS), Android Studio (Android)
-
+**Android APK:**
 ```bash
-flutter pub get
-flutter run
+flutter build apk --release
+# Output: build/app/outputs/flutter-apk/app-release.apk
 ```
 
-For iOS, run `pod install` in the `ios/` directory if needed.
+**Android App Bundle (Play Store):**
+```bash
+flutter build appbundle --release
+# Output: build/app/outputs/bundle/release/app-release.aab
+```
+
+Signing is configured via `android/key.properties` (gitignored). See [Flutter docs](https://docs.flutter.dev/deployment/android#signing-the-app) for setup.
+
+**iOS:**
+```bash
+flutter build ipa
+```
 
 ## Project Structure
 
 ```
 lib/
 ├── main.dart                  # App entry, MobileAds init, App Open ad setup
+├── data/
+│   └── data.dart              # Game state, card category data, per-level score accessors
 ├── screen/
 │   ├── home_screen.dart       # Home, theme picker, interstitial on theme change
-│   ├── level.dart             # Levels gameplay (timed)
-│   ├── Challenges_level.dart  # Challenges gameplay
-│   ├── memoryGame.dart        # Marathon gameplay
-│   ├── challenges_page.dart   # Challenge selection
-│   ├── challenges.dart        # Level selection
-│   └── colors.dart            # Theme colors
+│   ├── level.dart             # Levels gameplay (timed, 15 levels)
+│   ├── Challenges_level.dart  # Challenges gameplay (9 challenges)
+│   ├── memoryGame.dart        # Marathon gameplay (6 stages)
+│   ├── challenges_page.dart   # Challenge selection screen
+│   ├── challenges.dart        # Level selection screen
+│   ├── more_apps_page.dart    # More apps screen
+│   └── colors.dart            # App theme colors
 ├── util/
-│   ├── ads_manager.dart       # Ad unit ID routing (debug vs release)
+│   ├── ads_manager.dart       # Ad unit ID routing (debug vs release), AppOpenAdManager
 │   ├── ads_config.dart        # Production ad unit IDs (git-ignored)
 │   ├── ads_config.dart.example
-│   └── others.dart
-└── data/
-    └── data.dart              # Game state and card category data
+│   ├── in_app_reviewer_helper.dart
+│   └── others.dart            # SharedPreferences helper, CategoryHelper
+└── generated/                 # Auto-generated localization files
 ```
 
 ## Version
 
-`1.0.8+9`
+`1.1.0+10`
