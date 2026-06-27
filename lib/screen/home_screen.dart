@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'challenges_page.dart';
 import 'colors.dart';
 import 'more_apps_page.dart';
+import 'settings_page.dart';
 
 const int maxFailedLoadAttempts = 3;
 
@@ -165,6 +166,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         Data.neverPlay = myPrefs.getBool("play")!;
       });
     }
+    if (myPrefs.getBool("soundEffects") != null) {
+      setState(() {
+        Data.soundEffects = myPrefs.getBool("soundEffects")!;
+      });
+    }
   }
 
   @override
@@ -291,6 +297,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_rounded, color: Colors.white),
+            onPressed: () async {
+              await Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
+              if (mounted) setState(() {});
+            },
+          ),
+        ],
       ),
       backgroundColor: MyColors.background,
       body: SafeArea(

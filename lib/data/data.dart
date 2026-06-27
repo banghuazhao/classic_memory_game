@@ -51,6 +51,7 @@ class Data {
 
   static bool play = true;
   static bool neverPlay = false;
+  static bool soundEffects = true;
   static String music = "";
 
   static bool showAds = false;

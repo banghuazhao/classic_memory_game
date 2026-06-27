@@ -404,7 +404,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
 
   check() {
     if (q == w) {
-      FlameAudio.play('match.mp3');
+      if (Data.soundEffects) FlameAudio.play('match.mp3');
       b.add(w);
       b.add(q);
       setState(() {
