@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   // final fireStore = Firebase.initializeApp();
 
   bool change = false;
-  Timer timer;
+  late Timer timer;
 
   bool newGame = false;
   bool level = false;
@@ -39,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   String _category = "Candy";
 
-  BannerAd _ad;
+  late BannerAd _ad;
 
   bool _isAdLoaded = false;
 
-  InterstitialAd _interstitialAd;
+  InterstitialAd? _interstitialAd;
   int _interstitialLoadAttempts = 0;
 
   @override
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
 
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
-    WidgetsBinding.instance?.addObserver(AppLifecycleReactor(appOpenAdManager: appOpenAdManager));
+    WidgetsBinding.instance.addObserver(AppLifecycleReactor(appOpenAdManager: appOpenAdManager));
 
     _createInterstitialAd();
   }
@@ -107,20 +107,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd.fullScreenContentCallback =
-          FullScreenContentCallback(onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        ad.dispose();
-        AppOpenAdManager.shouldLoadAd = true;
-        _createInterstitialAd();
-      }, onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        ad.dispose();
-        AppOpenAdManager.shouldLoadAd = true;
-        _createInterstitialAd();
-      });
-      AppOpenAdManager.shouldLoadAd = false;
-      _interstitialAd.show();
-    } else {}
+    if (_interstitialAd == null) return;
+    _interstitialAd!.fullScreenContentCallback =
+        FullScreenContentCallback(onAdDismissedFullScreenContent: (InterstitialAd ad) {
+      ad.dispose();
+      AppOpenAdManager.shouldLoadAd = true;
+      _createInterstitialAd();
+    }, onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+      ad.dispose();
+      AppOpenAdManager.shouldLoadAd = true;
+      _createInterstitialAd();
+    });
+    AppOpenAdManager.shouldLoadAd = false;
+    _interstitialAd!.show();
   }
 
   @override
@@ -159,6 +158,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           });
         }
         break;
+      default:
+        break;
     }
   }
 
@@ -173,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (myPrefs.getBool("play") != null) {
       setState(() {
-        Data.neverPlay = myPrefs.getBool("play");
+        Data.neverPlay = myPrefs.getBool("play")!;
       });
     }
   }
@@ -345,10 +346,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                             child: Column(
                               children: [
-                                Text(Data.categoryMapping[_category].take(6).join(" "),
+                                Text((Data.categoryMapping[_category] ?? []).take(6).join(" "),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 35, color: MyColors.mainText)),
-                                Text(Data.categoryMapping[_category].skip(6).join(" "),
+                                Text((Data.categoryMapping[_category] ?? []).skip(6).join(" "),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 35, color: MyColors.mainText)),
                                 SizedBox(

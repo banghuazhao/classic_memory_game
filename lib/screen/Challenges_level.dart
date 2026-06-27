@@ -15,9 +15,9 @@ import 'colors.dart';
 
 // ignore: must_be_immutable
 class ChallengesLevel extends StatefulWidget {
-  int challenge = 1;
-  String desc = "";
-  ChallengesLevel({this.challenge, this.desc});
+  int challenge;
+  String desc;
+  ChallengesLevel({this.challenge = 1, this.desc = ""});
   @override
   _ChallengesLevelState createState() => _ChallengesLevelState();
 }
@@ -31,9 +31,9 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
   bool allow = true;
   bool isLoaded = false;
   bool isLoadedIn = false;
-  int i;
+  int? i;
   int ab = 2;
-  int y;
+  int? y;
   String q = "";
   String w = "";
   int numberOfTurns = 0;
@@ -41,13 +41,13 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
   List<String> a = [];
   List<String> b = [];
 
-  Timer timer;
+  late Timer timer;
   int gameTime = 0;
 
-  BannerAd _ad;
+  late BannerAd _ad;
   bool _isAdLoaded = false;
 
-  InterstitialAd _interstitialAd;
+  InterstitialAd? _interstitialAd;
   int _interstitialLoadAttempts = 0;
 
   @override
@@ -81,7 +81,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
   @override
   void dispose() {
     super.dispose();
-    timer?.cancel();
+    timer.cancel();
   }
 
   void _createInterstitialAd() {
@@ -106,7 +106,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) return;
-    _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         ad.dispose();
         AppOpenAdManager.shouldLoadAd = true;
@@ -119,7 +119,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
       },
     );
     AppOpenAdManager.shouldLoadAd = false;
-    _interstitialAd.show();
+    _interstitialAd!.show();
     _interstitialAd = null;
   }
 
@@ -158,7 +158,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
 
   number(int index) {
     if (index == i || y == index) {
-      return Text(Data.categoryMapping[CategoryHelper().category][int.parse(a[index])],
+      return Text(Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
           style: TextStyle(
             fontSize: 40,
             color: Colors.white,
@@ -375,7 +375,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
                           child: Center(
                             child: b.contains(a[index])
                                 ? Text(
-                                    Data.categoryMapping[CategoryHelper().category]
+                                    Data.categoryMapping[CategoryHelper().category]!
                                         [int.parse(a[index])],
                                     style: TextStyle(
                                       fontSize: 40,

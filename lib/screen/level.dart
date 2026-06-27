@@ -16,8 +16,8 @@ import 'colors.dart';
 
 // ignore: must_be_immutable
 class Levels extends StatefulWidget {
-  int level = 1;
-  Levels({this.level});
+  int level;
+  Levels({this.level = 1});
   @override
   _LevelsState createState() => _LevelsState();
 }
@@ -32,9 +32,9 @@ class _LevelsState extends State<Levels> {
   bool isLoaded = false;
   bool isLoadedIn = false;
   bool allow = true;
-  int i;
+  int? i;
   int ab = 2;
-  int y;
+  int? y;
   String q = "";
   String w = "";
   int currentTurns = 0;
@@ -45,13 +45,13 @@ class _LevelsState extends State<Levels> {
   List<String> a = [];
   List<String> b = [];
 
-  Timer timer;
+  late Timer timer;
   int gameTime = 0;
 
-  BannerAd _ad;
+  late BannerAd _ad;
   bool _isAdLoaded = false;
 
-  InterstitialAd _interstitialAd;
+  InterstitialAd? _interstitialAd;
   int _interstitialLoadAttempts = 0;
 
   @override
@@ -89,7 +89,7 @@ class _LevelsState extends State<Levels> {
   @override
   void dispose() {
     super.dispose();
-    timer?.cancel();
+    timer.cancel();
   }
 
   setHighScore() async {
@@ -201,106 +201,106 @@ class _LevelsState extends State<Levels> {
     if (widget.level == 1) {
       if (myPrefs.getInt("l1") != null && myPrefs.getInt("t1") != null) {
         setState(() {
-          Data.level_1 = myPrefs.getInt("l1");
-          Data.time_1 = myPrefs.getInt("t1");
+          Data.level_1 = myPrefs.getInt("l1")!;
+          Data.time_1 = myPrefs.getInt("t1")!;
         });
       }
     } else if (widget.level == 2) {
       if (myPrefs.getInt("l2") != null && myPrefs.getInt("t2") != null) {
         setState(() {
-          Data.level_2 = myPrefs.getInt("l2");
-          Data.time_2 = myPrefs.getInt("t2");
+          Data.level_2 = myPrefs.getInt("l2")!;
+          Data.time_2 = myPrefs.getInt("t2")!;
         });
       }
     } else if (widget.level == 3) {
       if (myPrefs.getInt("l3") != null && myPrefs.getInt("t3") != null) {
         setState(() {
-          Data.level_3 = myPrefs.getInt("l3");
-          Data.time_3 = myPrefs.getInt("t3");
+          Data.level_3 = myPrefs.getInt("l3")!;
+          Data.time_3 = myPrefs.getInt("t3")!;
         });
       }
     } else if (widget.level == 4) {
       if (myPrefs.getInt("l4") != null && myPrefs.getInt("t4") != null) {
         setState(() {
-          Data.level_4 = myPrefs.getInt("l4");
-          Data.time_4 = myPrefs.getInt("t4");
+          Data.level_4 = myPrefs.getInt("l4")!;
+          Data.time_4 = myPrefs.getInt("t4")!;
         });
       }
     } else if (widget.level == 5) {
       if (myPrefs.getInt("l5") != null && myPrefs.getInt("t5") != null) {
         setState(() {
-          Data.level_5 = myPrefs.getInt("l5");
-          Data.time_5 = myPrefs.getInt("t5");
+          Data.level_5 = myPrefs.getInt("l5")!;
+          Data.time_5 = myPrefs.getInt("t5")!;
         });
       }
     } else if (widget.level == 6) {
       if (myPrefs.getInt("l6") != null && myPrefs.getInt("t6") != null) {
         setState(() {
-          Data.level_6 = myPrefs.getInt("l6");
-          Data.time_6 = myPrefs.getInt("t6");
+          Data.level_6 = myPrefs.getInt("l6")!;
+          Data.time_6 = myPrefs.getInt("t6")!;
         });
       }
     } else if (widget.level == 7) {
       if (myPrefs.getInt("l7") != null && myPrefs.getInt("t7") != null) {
         setState(() {
-          Data.level_7 = myPrefs.getInt("l7");
-          Data.time_7 = myPrefs.getInt("t7");
+          Data.level_7 = myPrefs.getInt("l7")!;
+          Data.time_7 = myPrefs.getInt("t7")!;
         });
       }
     } else if (widget.level == 8) {
       if (myPrefs.getInt("l8") != null && myPrefs.getInt("t8") != null) {
         setState(() {
-          Data.level_8 = myPrefs.getInt("l8");
-          Data.time_8 = myPrefs.getInt("t8");
+          Data.level_8 = myPrefs.getInt("l8")!;
+          Data.time_8 = myPrefs.getInt("t8")!;
         });
       }
     } else if (widget.level == 9) {
       if (myPrefs.getInt("l9") != null && myPrefs.getInt("t9") != null) {
         setState(() {
-          Data.level_9 = myPrefs.getInt("l9");
-          Data.time_9 = myPrefs.getInt("t9");
+          Data.level_9 = myPrefs.getInt("l9")!;
+          Data.time_9 = myPrefs.getInt("t9")!;
         });
       }
     } else if (widget.level == 10) {
       if (myPrefs.getInt("l10") != null && myPrefs.getInt("t10") != null) {
         setState(() {
-          Data.level_10 = myPrefs.getInt("l10");
-          Data.time_10 = myPrefs.getInt("t10");
+          Data.level_10 = myPrefs.getInt("l10")!;
+          Data.time_10 = myPrefs.getInt("t10")!;
         });
       }
     } else if (widget.level == 11) {
       if (myPrefs.getInt("l11") != null && myPrefs.getInt("t11") != null) {
         setState(() {
-          Data.level_11 = myPrefs.getInt("l11");
-          Data.time_11 = myPrefs.getInt("t11");
+          Data.level_11 = myPrefs.getInt("l11")!;
+          Data.time_11 = myPrefs.getInt("t11")!;
         });
       }
     } else if (widget.level == 12) {
       if (myPrefs.getInt("l12") != null && myPrefs.getInt("t12") != null) {
         setState(() {
-          Data.level_12 = myPrefs.getInt("l12");
-          Data.time_12 = myPrefs.getInt("t12");
+          Data.level_12 = myPrefs.getInt("l12")!;
+          Data.time_12 = myPrefs.getInt("t12")!;
         });
       }
     } else if (widget.level == 13) {
       if (myPrefs.getInt("l13") != null && myPrefs.getInt("t13") != null) {
         setState(() {
-          Data.level_13 = myPrefs.getInt("l13");
-          Data.time_13 = myPrefs.getInt("t13");
+          Data.level_13 = myPrefs.getInt("l13")!;
+          Data.time_13 = myPrefs.getInt("t13")!;
         });
       }
     } else if (widget.level == 14) {
       if (myPrefs.getInt("l14") != null && myPrefs.getInt("t14") != null) {
         setState(() {
-          Data.level_14 = myPrefs.getInt("l14");
-          Data.time_14 = myPrefs.getInt("t14");
+          Data.level_14 = myPrefs.getInt("l14")!;
+          Data.time_14 = myPrefs.getInt("t14")!;
         });
       }
     } else if (widget.level == 15) {
       if (myPrefs.getInt("l15") != null && myPrefs.getInt("t15") != null) {
         setState(() {
-          Data.level_15 = myPrefs.getInt("l15");
-          Data.time_15 = myPrefs.getInt("t15");
+          Data.level_15 = myPrefs.getInt("l15")!;
+          Data.time_15 = myPrefs.getInt("t15")!;
         });
       }
     }
@@ -328,7 +328,7 @@ class _LevelsState extends State<Levels> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) return;
-    _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         ad.dispose();
         AppOpenAdManager.shouldLoadAd = true;
@@ -341,7 +341,7 @@ class _LevelsState extends State<Levels> {
       },
     );
     AppOpenAdManager.shouldLoadAd = false;
-    _interstitialAd.show();
+    _interstitialAd!.show();
     _interstitialAd = null;
   }
 
@@ -696,7 +696,7 @@ class _LevelsState extends State<Levels> {
     return Center(
       child: b.contains(a[index])
           ? Text(
-              Data.categoryMapping[CategoryHelper().category][int.parse(a[index])],
+              Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
               style: TextStyle(
                 fontSize: size,
                 color: Colors.white,
@@ -708,7 +708,7 @@ class _LevelsState extends State<Levels> {
 
   number(int index, double size) {
     if (index == i || y == index) {
-      return Text(Data.categoryMapping[CategoryHelper().category][int.parse(a[index])],
+      return Text(Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
           style: TextStyle(
             fontSize: size,
             color: Colors.white,

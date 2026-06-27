@@ -7,7 +7,7 @@ import '../generated/l10n.dart';
 import 'colors.dart';
 
 class MoreAppsPage extends StatelessWidget {
-  const MoreAppsPage({Key key}) : super(key: key);
+  const MoreAppsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -201,25 +201,23 @@ class MoreAppItem {
 }
 
 class MoreAppsRow extends StatelessWidget {
-  Image appIcon;
-  IconData trailingIcon;
-  String title;
-  void Function() onTap;
+  final Image appIcon;
+  final IconData trailingIcon;
+  final String title;
+  final void Function() onTap;
 
-  MoreAppsRow(
-      {Key key,
+  const MoreAppsRow(
+      {super.key,
       this.trailingIcon = Icons.chevron_right_rounded,
-      @required this.appIcon,
-      @required this.title,
-      @required this.onTap})
-      : super(key: key);
+      required this.appIcon,
+      required this.title,
+      required this.onTap});
 
-  MoreAppsRow.factory(MoreAppItem moreAppItem) {
-    appIcon = moreAppItem.appIcon;
-    trailingIcon = Icons.chevron_right_rounded;
-    title = moreAppItem.title;
-    onTap = moreAppItem.onTap;
-  }
+  MoreAppsRow.factory(MoreAppItem moreAppItem)
+      : appIcon = moreAppItem.appIcon,
+        trailingIcon = Icons.chevron_right_rounded,
+        title = moreAppItem.title,
+        onTap = moreAppItem.onTap;
 
   @override
   Widget build(BuildContext context) {

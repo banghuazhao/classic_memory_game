@@ -21,7 +21,7 @@ class _ChallengesState extends State<Challenges> {
   bool choose = false;
   bool pokeSlide = false;
   int title = 0;
-  Timer timer;
+  late Timer timer;
 
   int poke1 = 3;
   int poke2 = 1;
@@ -47,7 +47,7 @@ class _ChallengesState extends State<Challenges> {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     if (myPrefs.getInt("pl") != null) {
       setState(() {
-        Data.playerLevel = myPrefs.getInt("pl");
+        Data.playerLevel = myPrefs.getInt("pl")!;
       });
     }
   }

@@ -21,49 +21,31 @@ class _ChooseChallengesState extends State<ChooseChallenges> {
   getHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     if (myPrefs.getBool("c1") != null) {
-      setState(() {
-        Data.challenge_1 = myPrefs.getBool("c1");
-      });
+      setState(() { Data.challenge_1 = myPrefs.getBool("c1")!; });
     }
     if (myPrefs.getBool("c2") != null) {
-      setState(() {
-        Data.challenge_2 = myPrefs.getBool("c2");
-      });
+      setState(() { Data.challenge_2 = myPrefs.getBool("c2")!; });
     }
     if (myPrefs.getBool("c3") != null) {
-      setState(() {
-        Data.challenge_3 = myPrefs.getBool("c3");
-      });
+      setState(() { Data.challenge_3 = myPrefs.getBool("c3")!; });
     }
     if (myPrefs.getBool("medium1") != null) {
-      setState(() {
-        Data.challenge_4 = myPrefs.getBool("medium1");
-      });
+      setState(() { Data.challenge_4 = myPrefs.getBool("medium1")!; });
     }
     if (myPrefs.getBool("medium2") != null) {
-      setState(() {
-        Data.challenge_5 = myPrefs.getBool("medium2");
-      });
+      setState(() { Data.challenge_5 = myPrefs.getBool("medium2")!; });
     }
     if (myPrefs.getBool("medium3") != null) {
-      setState(() {
-        Data.challenge_6 = myPrefs.getBool("medium3");
-      });
+      setState(() { Data.challenge_6 = myPrefs.getBool("medium3")!; });
     }
     if (myPrefs.getBool("hard1") != null) {
-      setState(() {
-        Data.challenge_7 = myPrefs.getBool("hard1");
-      });
+      setState(() { Data.challenge_7 = myPrefs.getBool("hard1")!; });
     }
     if (myPrefs.getBool("hard2") != null) {
-      setState(() {
-        Data.challenge_8 = myPrefs.getBool("hard2");
-      });
+      setState(() { Data.challenge_8 = myPrefs.getBool("hard2")!; });
     }
     if (myPrefs.getBool("hard3") != null) {
-      setState(() {
-        Data.challenge_9 = myPrefs.getBool("hard3");
-      });
+      setState(() { Data.challenge_9 = myPrefs.getBool("hard3")!; });
     }
   }
 

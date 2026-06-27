@@ -23,9 +23,9 @@ class _MemoryState extends State<Memory> {
   bool restartG = false;
   bool isLoaded = false;
   bool isLoadedIn = false;
-  int i;
+  int? i;
   int ab = 2;
-  int y;
+  int? y;
   String q = "";
   String w = "";
 
@@ -33,12 +33,12 @@ class _MemoryState extends State<Memory> {
   List<String> a = [];
   List<String> b = [];
 
-  Timer timer;
+  Timer? timer;
 
   int currentTurns = 0;
   int currentTime = 0;
 
-  BannerAd _ad;
+  late BannerAd _ad;
 
   bool _isAdLoaded = false;
 
@@ -92,8 +92,8 @@ class _MemoryState extends State<Memory> {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     if (myPrefs.getInt("highTurn") != null && myPrefs.getInt("highTime") != null) {
       setState(() {
-        Data.highTurn = myPrefs.getInt("highTurn");
-        Data.highTime = myPrefs.getInt("highTime");
+        Data.highTurn = myPrefs.getInt("highTurn")!;
+        Data.highTime = myPrefs.getInt("highTime")!;
         print("highTurn: ${Data.highTurn}");
         print("highTime: ${Data.highTime}");
       });
@@ -377,7 +377,7 @@ class _MemoryState extends State<Memory> {
     return Center(
       child: b.contains(a[index])
           ? Text(
-              Data.categoryMapping[CategoryHelper().category][int.parse(a[index])],
+              Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
               style: TextStyle(
                 fontSize: size,
                 color: Colors.white,
@@ -389,7 +389,7 @@ class _MemoryState extends State<Memory> {
 
   number(int index, double size) {
     if (index == i || y == index) {
-      return Text(Data.categoryMapping[CategoryHelper().category][int.parse(a[index])],
+      return Text(Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
           style: TextStyle(
             fontSize: size,
             color: Colors.white,
@@ -421,13 +421,13 @@ class _MemoryState extends State<Memory> {
                 " $currentTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog("$currentTurns " +
                 S.of(context).turns_in +
                 " $currentTime " +
                 S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else if (currentTurns < Data.highTurn) {
           showWinDialog("   " +
@@ -438,7 +438,7 @@ class _MemoryState extends State<Memory> {
               " $currentTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         } else {
           showWinDialog(
               "$currentTurns " + S.of(context).turns_in + " $currentTime " + S.of(context).seconds);
@@ -452,7 +452,7 @@ class _MemoryState extends State<Memory> {
             " $currentTime " +
             S.of(context).seconds);
         setHighScore();
-        timer.cancel();
+        timer?.cancel();
       }
     } else if (b.length >= a.length) {
       Timer(Duration(milliseconds: 350), () {
@@ -479,7 +479,7 @@ class _MemoryState extends State<Memory> {
       b = [];
       first();
       if (currentTime > 0) {
-        timer.cancel();
+        timer?.cancel();
         currentTime = 0;
       }
       currentTime = 0;
