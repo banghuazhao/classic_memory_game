@@ -75,13 +75,9 @@ class _MemoryState extends State<Memory> {
 
   setHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    setState(() {
-      myPrefs.setInt("highTurn", currentTurns).then((value) {
-        myPrefs.setInt("highTime", currentTime).then((value) {
-          getHighScore();
-        });
-      });
-    });
+    await myPrefs.setInt("highTurn", currentTurns);
+    await myPrefs.setInt("highTime", currentTime);
+    getHighScore();
   }
 
   getHighScore() async {
@@ -260,7 +256,7 @@ class _MemoryState extends State<Memory> {
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  itemCount: a.length == null ? 0 : a.length,
+                  itemCount: a.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: Data.level == 1 || Data.level == 2
                         ? 2

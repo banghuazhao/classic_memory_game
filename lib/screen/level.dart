@@ -32,6 +32,7 @@ class _LevelsState extends State<Levels> {
   bool isLoaded = false;
   bool isLoadedIn = false;
   bool allow = true;
+  late int _level;
   int? i;
   int ab = 2;
   int? y;
@@ -56,6 +57,7 @@ class _LevelsState extends State<Levels> {
 
   @override
   void initState() {
+    _level = widget.level;
     _createInterstitialAd();
     _ad = BannerAd(
       adUnitId: AdsManager.bannerAdUnitId,
@@ -91,216 +93,25 @@ class _LevelsState extends State<Levels> {
 
   setHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (widget.level == 1) {
-        myPrefs.setInt("l1", currentTurns).then((value) {
-          myPrefs.setInt("t1", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 2) {
-        myPrefs.setInt("l2", currentTurns).then((value) {
-          myPrefs.setInt("t2", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 3) {
-        myPrefs.setInt("l3", currentTurns).then((value) {
-          myPrefs.setInt("t3", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 4) {
-        myPrefs.setInt("l4", currentTurns).then((value) {
-          myPrefs.setInt("t4", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 5) {
-        myPrefs.setInt("l5", currentTurns).then((value) {
-          myPrefs.setInt("t5", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 6) {
-        myPrefs.setInt("l6", currentTurns).then((value) {
-          myPrefs.setInt("t6", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 7) {
-        myPrefs.setInt("l7", currentTurns).then((value) {
-          myPrefs.setInt("t7", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 8) {
-        myPrefs.setInt("l8", currentTurns).then((value) {
-          myPrefs.setInt("t8", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 9) {
-        myPrefs.setInt("l9", currentTurns).then((value) {
-          myPrefs.setInt("t9", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 10) {
-        myPrefs.setInt("l10", currentTurns).then((value) {
-          myPrefs.setInt("t10", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 11) {
-        myPrefs.setInt("l11", currentTurns).then((value) {
-          myPrefs.setInt("t11", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 12) {
-        myPrefs.setInt("l12", currentTurns).then((value) {
-          myPrefs.setInt("t12", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 13) {
-        myPrefs.setInt("l13", currentTurns).then((value) {
-          myPrefs.setInt("t13", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 14) {
-        myPrefs.setInt("l14", currentTurns).then((value) {
-          myPrefs.setInt("t14", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      } else if (widget.level == 15) {
-        myPrefs.setInt("l15", currentTurns).then((value) {
-          myPrefs.setInt("t15", gameTime).then((value) {
-            getHighScore();
-          });
-        });
-      }
-    });
+    await myPrefs.setInt("l$_level", currentTurns);
+    await myPrefs.setInt("t$_level", gameTime);
+    getHighScore();
   }
 
   setPlayerLevel() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    setState(() {
-      myPrefs.setInt("pl", Data.playerLevel);
-    });
+    await myPrefs.setInt("pl", Data.playerLevel);
   }
 
   getHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     if (!mounted) return;
-    if (widget.level == 1) {
-      if (myPrefs.getInt("l1") != null && myPrefs.getInt("t1") != null) {
-        setState(() {
-          Data.level_1 = myPrefs.getInt("l1")!;
-          Data.time_1 = myPrefs.getInt("t1")!;
-        });
-      }
-    } else if (widget.level == 2) {
-      if (myPrefs.getInt("l2") != null && myPrefs.getInt("t2") != null) {
-        setState(() {
-          Data.level_2 = myPrefs.getInt("l2")!;
-          Data.time_2 = myPrefs.getInt("t2")!;
-        });
-      }
-    } else if (widget.level == 3) {
-      if (myPrefs.getInt("l3") != null && myPrefs.getInt("t3") != null) {
-        setState(() {
-          Data.level_3 = myPrefs.getInt("l3")!;
-          Data.time_3 = myPrefs.getInt("t3")!;
-        });
-      }
-    } else if (widget.level == 4) {
-      if (myPrefs.getInt("l4") != null && myPrefs.getInt("t4") != null) {
-        setState(() {
-          Data.level_4 = myPrefs.getInt("l4")!;
-          Data.time_4 = myPrefs.getInt("t4")!;
-        });
-      }
-    } else if (widget.level == 5) {
-      if (myPrefs.getInt("l5") != null && myPrefs.getInt("t5") != null) {
-        setState(() {
-          Data.level_5 = myPrefs.getInt("l5")!;
-          Data.time_5 = myPrefs.getInt("t5")!;
-        });
-      }
-    } else if (widget.level == 6) {
-      if (myPrefs.getInt("l6") != null && myPrefs.getInt("t6") != null) {
-        setState(() {
-          Data.level_6 = myPrefs.getInt("l6")!;
-          Data.time_6 = myPrefs.getInt("t6")!;
-        });
-      }
-    } else if (widget.level == 7) {
-      if (myPrefs.getInt("l7") != null && myPrefs.getInt("t7") != null) {
-        setState(() {
-          Data.level_7 = myPrefs.getInt("l7")!;
-          Data.time_7 = myPrefs.getInt("t7")!;
-        });
-      }
-    } else if (widget.level == 8) {
-      if (myPrefs.getInt("l8") != null && myPrefs.getInt("t8") != null) {
-        setState(() {
-          Data.level_8 = myPrefs.getInt("l8")!;
-          Data.time_8 = myPrefs.getInt("t8")!;
-        });
-      }
-    } else if (widget.level == 9) {
-      if (myPrefs.getInt("l9") != null && myPrefs.getInt("t9") != null) {
-        setState(() {
-          Data.level_9 = myPrefs.getInt("l9")!;
-          Data.time_9 = myPrefs.getInt("t9")!;
-        });
-      }
-    } else if (widget.level == 10) {
-      if (myPrefs.getInt("l10") != null && myPrefs.getInt("t10") != null) {
-        setState(() {
-          Data.level_10 = myPrefs.getInt("l10")!;
-          Data.time_10 = myPrefs.getInt("t10")!;
-        });
-      }
-    } else if (widget.level == 11) {
-      if (myPrefs.getInt("l11") != null && myPrefs.getInt("t11") != null) {
-        setState(() {
-          Data.level_11 = myPrefs.getInt("l11")!;
-          Data.time_11 = myPrefs.getInt("t11")!;
-        });
-      }
-    } else if (widget.level == 12) {
-      if (myPrefs.getInt("l12") != null && myPrefs.getInt("t12") != null) {
-        setState(() {
-          Data.level_12 = myPrefs.getInt("l12")!;
-          Data.time_12 = myPrefs.getInt("t12")!;
-        });
-      }
-    } else if (widget.level == 13) {
-      if (myPrefs.getInt("l13") != null && myPrefs.getInt("t13") != null) {
-        setState(() {
-          Data.level_13 = myPrefs.getInt("l13")!;
-          Data.time_13 = myPrefs.getInt("t13")!;
-        });
-      }
-    } else if (widget.level == 14) {
-      if (myPrefs.getInt("l14") != null && myPrefs.getInt("t14") != null) {
-        setState(() {
-          Data.level_14 = myPrefs.getInt("l14")!;
-          Data.time_14 = myPrefs.getInt("t14")!;
-        });
-      }
-    } else if (widget.level == 15) {
-      if (myPrefs.getInt("l15") != null && myPrefs.getInt("t15") != null) {
-        setState(() {
-          Data.level_15 = myPrefs.getInt("l15")!;
-          Data.time_15 = myPrefs.getInt("t15")!;
-        });
-      }
+    final turns = myPrefs.getInt("l$_level");
+    final time = myPrefs.getInt("t$_level");
+    if (turns != null && time != null) {
+      setState(() {
+        Data.setLevelScore(_level, turns, time);
+      });
     }
   }
 
@@ -345,31 +156,29 @@ class _LevelsState extends State<Levels> {
 
   setRatingSharing() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    setState(() {
-      myPrefs.setBool("rate", Data.rate);
-      myPrefs.setBool("share", Data.share);
-    });
+    await myPrefs.setBool("rate", Data.rate);
+    await myPrefs.setBool("share", Data.share);
   }
 
   first() {
     for (int i = 1;
-        widget.level == 1
+        _level == 1
             ? i <= 6
-            : widget.level == 2
+            : _level == 2
                 ? i <= 6
-                : widget.level == 3
+                : _level == 3
                     ? i <= 8
-                    : widget.level == 4
+                    : _level == 4
                         ? i <= 6
-                        : widget.level == 5
+                        : _level == 5
                             ? i <= 8
-                            : widget.level == 6
+                            : _level == 6
                                 ? i <= 8
-                                : widget.level == 7
+                                : _level == 7
                                     ? i <= 10
-                                    : widget.level == 8
+                                    : _level == 8
                                         ? i <= 10
-                                        : widget.level == 9
+                                        : _level == 9
                                             ? i <= 10
                                             : i <= 10;
         i++) {
@@ -379,115 +188,27 @@ class _LevelsState extends State<Levels> {
     a.shuffle();
   }
 
+  static const _levelTimeLimit = <int, int>{
+    1: 18, 2: 15, 3: 20, 4: 15, 5: 18, 6: 22, 7: 24,
+    8: 30, 9: 34, 10: 35, 11: 28, 12: 24, 13: 28, 14: 26, 15: 30,
+  };
+
   timeLeft() {
-    var addTime = 3;
-    if (widget.level == 1) {
-      setState(() {
-        remainingTime = 18 + addTime;
-        highScore = Data.level_1;
-        highScoreTime = Data.time_1;
-      });
-    } else if (widget.level == 2) {
-      setState(() {
-        remainingTime = 15 + addTime;
-        highScore = Data.level_2;
-        highScoreTime = Data.time_2;
-      });
-    } else if (widget.level == 3) {
-      setState(() {
-        remainingTime = 20 + addTime;
-        highScore = Data.level_3;
-        highScoreTime = Data.time_3;
-      });
-    } else if (widget.level == 4) {
-      setState(() {
-        remainingTime = 15 + addTime;
-        highScore = Data.level_4;
-        highScoreTime = Data.time_4;
-      });
-    } else if (widget.level == 5) {
-      setState(() {
-        remainingTime = 18 + addTime;
-        highScore = Data.level_5;
-        highScoreTime = Data.time_5;
-      });
-    } else if (widget.level == 6) {
-      setState(() {
-        remainingTime = 22 + addTime;
-        highScore = Data.level_6;
-        highScoreTime = Data.time_6;
-      });
-    } else if (widget.level == 7) {
-      setState(() {
-        remainingTime = 24 + addTime;
-        highScore = Data.level_7;
-        highScoreTime = Data.time_7;
-      });
-    } else if (widget.level == 8) {
-      setState(() {
-        remainingTime = 30 + addTime;
-        highScore = Data.level_8;
-        highScoreTime = Data.time_8;
-      });
-    } else if (widget.level == 9) {
-      setState(() {
-        remainingTime = 34 + addTime;
-        highScore = Data.level_9;
-        highScoreTime = Data.time_9;
-      });
-    } else if (widget.level == 10) {
-      setState(() {
-        remainingTime = 35 + addTime;
-        highScore = Data.level_10;
-        highScoreTime = Data.time_10;
-      });
-    } else if (widget.level == 11) {
-      setState(() {
-        remainingTime = 28 + addTime;
-        highScore = Data.level_11;
-        highScoreTime = Data.time_11;
-      });
-    } else if (widget.level == 12) {
-      setState(() {
-        remainingTime = 24 + addTime;
-        highScore = Data.level_12;
-        highScoreTime = Data.time_12;
-      });
-    } else if (widget.level == 13) {
-      setState(() {
-        remainingTime = 28 + addTime;
-        highScore = Data.level_13;
-        highScoreTime = Data.time_13;
-      });
-    } else if (widget.level == 14) {
-      setState(() {
-        remainingTime = 26 + addTime;
-        highScore = Data.level_14;
-        highScoreTime = Data.time_14;
-      });
-    } else if (widget.level == 15) {
-      setState(() {
-        remainingTime = 30 + addTime;
-        highScore = Data.level_15;
-        highScoreTime = Data.time_15;
-      });
-    }
+    setState(() {
+      remainingTime = (_levelTimeLimit[_level] ?? 30) + 3;
+      highScore = Data.levelScore(_level);
+      highScoreTime = Data.levelTime(_level);
+    });
   }
 
   time() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        gameTime++;
-        if (gameTime > 8) {
-          if (remainingTime - gameTime == 0) {
-            setState(() {
-              allow = false;
-              timer?.cancel();
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        }
-      });
+    timer = Timer.periodic(Duration(seconds: 1), (t) {
+      setState(() { gameTime++; });
+      if (gameTime > 8 && remainingTime - gameTime == 0) {
+        t.cancel();
+        setState(() { allow = false; });
+        showWinDialog(S.of(context).Time_is_over);
+      }
     });
   }
 
@@ -507,7 +228,7 @@ class _LevelsState extends State<Levels> {
           },
         ),
         title: Text(
-          S.of(context).Level + " ${widget.level}",
+          S.of(context).Level + " ${_level}",
           style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
         elevation: 0,
@@ -573,7 +294,7 @@ class _LevelsState extends State<Levels> {
                                   ": $remainingTime " +
                                   S.of(context).seconds
                               : S.of(context).High_Score_in_Level +
-                                  " ${widget.level}\n$highScore " +
+                                  " ${_level}\n$highScore " +
                                   S.of(context).turns_in +
                                   " $highScoreTime " +
                                   S.of(context).seconds,
@@ -596,15 +317,15 @@ class _LevelsState extends State<Levels> {
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  itemCount: a.length == null ? 0 : a.length,
+                  itemCount: a.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: widget.level == 1
+                    crossAxisCount: _level == 1
                         ? 3
-                        : widget.level == 2
+                        : _level == 2
                             ? 3
-                            : widget.level == 3
+                            : _level == 3
                                 ? 4
-                                : widget.level == 4
+                                : _level == 4
                                     ? 3
                                     : 4,
                     crossAxisSpacing: 4,
@@ -682,13 +403,13 @@ class _LevelsState extends State<Levels> {
   }
 
   memoryCardText(int index) {
-    double size = widget.level == 1
+    double size = _level == 1
         ? 50
-        : widget.level == 2
+        : _level == 2
             ? 50
-            : widget.level == 3
+            : _level == 3
                 ? 40
-                : widget.level == 4
+                : _level == 4
                     ? 50
                     : 40;
     return Center(
@@ -728,18 +449,18 @@ class _LevelsState extends State<Levels> {
 
     if (b.length >= a.length) {
       setState(() {
-        if (widget.level <= 14) {
+        if (_level <= 14) {
           nextLevel = true;
         }
       });
       Future.delayed(const Duration(seconds: 1), () {
         _showInterstitialAd();
       });
-      if (widget.level == Data.playerLevel) {
-        Data.playerLevel = widget.level + 1;
+      if (_level == Data.playerLevel) {
+        Data.playerLevel = _level + 1;
         setPlayerLevel();
       }
-      if (widget.level == 1) {
+      if (_level == 1) {
         if (Data.level_1 != 0) {
           if (currentTurns == Data.level_1) {
             if (gameTime < Data.time_1) {
@@ -785,7 +506,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 2) {
+      } else if (_level == 2) {
         if (currentTurns == Data.level_2) {
           if (gameTime < Data.time_2) {
             showWinDialog("   " +
@@ -830,7 +551,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 3) {
+      } else if (_level == 3) {
         if (Data.level_3 != 0) {
           if (currentTurns == Data.level_3) {
             if (gameTime < Data.time_3) {
@@ -876,7 +597,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 4) {
+      } else if (_level == 4) {
         if (Data.level_4 != 0) {
           if (currentTurns == Data.level_4) {
             if (gameTime < Data.time_4) {
@@ -922,7 +643,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 5) {
+      } else if (_level == 5) {
         if (Data.level_5 != 0) {
           if (currentTurns == Data.level_5) {
             if (gameTime < Data.time_5) {
@@ -968,7 +689,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 6) {
+      } else if (_level == 6) {
         if (Data.level_6 != 0) {
           if (currentTurns == Data.level_6) {
             if (gameTime < Data.time_6) {
@@ -1014,7 +735,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 7) {
+      } else if (_level == 7) {
         if (Data.level_7 != 0) {
           if (currentTurns == Data.level_7) {
             if (gameTime < Data.time_7) {
@@ -1060,7 +781,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 8) {
+      } else if (_level == 8) {
         if (Data.level_8 != 0) {
           if (currentTurns == Data.level_8) {
             if (gameTime < Data.time_8) {
@@ -1106,7 +827,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 9) {
+      } else if (_level == 9) {
         if (Data.level_9 != 0) {
           if (currentTurns == Data.level_9) {
             if (gameTime < Data.time_9) {
@@ -1152,7 +873,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 10) {
+      } else if (_level == 10) {
         if (Data.level_10 != 0) {
           if (currentTurns == Data.level_10) {
             if (gameTime < Data.time_10) {
@@ -1198,7 +919,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 11) {
+      } else if (_level == 11) {
         if (Data.level_11 != 0) {
           if (currentTurns == Data.level_11) {
             if (gameTime < Data.time_11) {
@@ -1244,7 +965,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 12) {
+      } else if (_level == 12) {
         if (Data.level_12 != 0) {
           if (currentTurns == Data.level_12) {
             if (gameTime < Data.time_12) {
@@ -1290,7 +1011,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 13) {
+      } else if (_level == 13) {
         if (Data.level_13 != 0) {
           if (currentTurns == Data.level_13) {
             if (gameTime < Data.time_13) {
@@ -1336,7 +1057,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 14) {
+      } else if (_level == 14) {
         if (Data.level_14 != 0) {
           if (currentTurns == Data.level_14) {
             if (gameTime < Data.time_14) {
@@ -1382,7 +1103,7 @@ class _LevelsState extends State<Levels> {
           setHighScore();
           timer?.cancel();
         }
-      } else if (widget.level == 15) {
+      } else if (_level == 15) {
         if (Data.level_15 != 0) {
           if (currentTurns == Data.level_15) {
             if (gameTime < Data.time_15) {
@@ -1458,7 +1179,7 @@ class _LevelsState extends State<Levels> {
 
   levelUp() {
     setState(() {
-      widget.level++;
+      _level++;
       i = null;
       ab = 2;
       y = null;

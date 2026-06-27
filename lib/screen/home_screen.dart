@@ -71,15 +71,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     // musicName();
     // showAds();
-    timer = Timer.periodic(Duration(milliseconds: 2700), (timer) {
-      setState(() {
-        if (Data.play == true && Data.neverPlay == false) {
-          // playAgain();
-        }
-        change = !change;
-      });
-    });
-
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
     _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
     WidgetsBinding.instance.addObserver(_appLifecycleReactor!);

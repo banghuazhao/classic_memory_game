@@ -165,60 +165,19 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
     }
   }
 
+  static const _challengeTimeLimit = <int, int>{
+    1: 32, 3: 34, 4: 24, 6: 26, 7: 18, 9: 20,
+  };
+
   time() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        gameTime++;
-        if (widget.challenge == 1) {
-          if (gameTime >= 32) {
-            setState(() {
-              timer?.cancel();
-              allow = false;
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        } else if (widget.challenge == 3) {
-          if (gameTime >= 34) {
-            setState(() {
-              timer?.cancel();
-              allow = false;
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        } else if (widget.challenge == 4) {
-          if (gameTime >= 24) {
-            setState(() {
-              timer?.cancel();
-              allow = false;
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        } else if (widget.challenge == 6) {
-          if (gameTime >= 26) {
-            setState(() {
-              timer?.cancel();
-              allow = false;
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        } else if (widget.challenge == 7) {
-          if (gameTime >= 18) {
-            setState(() {
-              timer?.cancel();
-              allow = false;
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        } else if (widget.challenge == 9) {
-          if (gameTime >= 20) {
-            setState(() {
-              timer?.cancel();
-              allow = false;
-              showWinDialog(S.of(context).Time_is_over);
-            });
-          }
-        }
-      });
+    timer = Timer.periodic(Duration(seconds: 1), (t) {
+      setState(() { gameTime++; });
+      final limit = _challengeTimeLimit[widget.challenge];
+      if (limit != null && gameTime >= limit) {
+        t.cancel();
+        setState(() { allow = false; });
+        showWinDialog(S.of(context).Time_is_over);
+      }
     });
   }
 

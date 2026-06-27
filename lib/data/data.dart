@@ -142,6 +142,48 @@ class Data {
     "<",
   ];
 
+  static int levelScore(int lvl) {
+    switch (lvl) {
+      case 1: return level_1; case 2: return level_2; case 3: return level_3;
+      case 4: return level_4; case 5: return level_5; case 6: return level_6;
+      case 7: return level_7; case 8: return level_8; case 9: return level_9;
+      case 10: return level_10; case 11: return level_11; case 12: return level_12;
+      case 13: return level_13; case 14: return level_14; case 15: return level_15;
+      default: return 0;
+    }
+  }
+
+  static int levelTime(int lvl) {
+    switch (lvl) {
+      case 1: return time_1; case 2: return time_2; case 3: return time_3;
+      case 4: return time_4; case 5: return time_5; case 6: return time_6;
+      case 7: return time_7; case 8: return time_8; case 9: return time_9;
+      case 10: return time_10; case 11: return time_11; case 12: return time_12;
+      case 13: return time_13; case 14: return time_14; case 15: return time_15;
+      default: return 0;
+    }
+  }
+
+  static void setLevelScore(int lvl, int turns, int time) {
+    switch (lvl) {
+      case 1: level_1 = turns; time_1 = time; break;
+      case 2: level_2 = turns; time_2 = time; break;
+      case 3: level_3 = turns; time_3 = time; break;
+      case 4: level_4 = turns; time_4 = time; break;
+      case 5: level_5 = turns; time_5 = time; break;
+      case 6: level_6 = turns; time_6 = time; break;
+      case 7: level_7 = turns; time_7 = time; break;
+      case 8: level_8 = turns; time_8 = time; break;
+      case 9: level_9 = turns; time_9 = time; break;
+      case 10: level_10 = turns; time_10 = time; break;
+      case 11: level_11 = turns; time_11 = time; break;
+      case 12: level_12 = turns; time_12 = time; break;
+      case 13: level_13 = turns; time_13 = time; break;
+      case 14: level_14 = turns; time_14 = time; break;
+      case 15: level_15 = turns; time_15 = time; break;
+    }
+  }
+
   static Map<String, List<String>> categoryMapping = {
     "Candy": candy,
     "Fruit": fruit,
