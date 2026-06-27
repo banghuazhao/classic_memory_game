@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   // final fireStore = Firebase.initializeApp();
 
   bool change = false;
-  late Timer timer;
+  Timer? timer;
+  AppLifecycleReactor? _appLifecycleReactor;
 
   bool newGame = false;
   bool level = false;
@@ -56,15 +57,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
-          setState(() {
-            _isAdLoaded = true;
-          });
+          if (mounted) setState(() { _isAdLoaded = true; });
         },
         onAdFailedToLoad: (ad, error) {
-          // Releases an ad resource when it fails to load
           ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     );
@@ -85,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
 
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
-    WidgetsBinding.instance.addObserver(AppLifecycleReactor(appOpenAdManager: appOpenAdManager));
+    _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    WidgetsBinding.instance.addObserver(_appLifecycleReactor!);
 
     _createInterstitialAd();
   }
@@ -171,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   getHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
-
+    if (!mounted) return;
     if (myPrefs.getBool("play") != null) {
       setState(() {
         Data.neverPlay = myPrefs.getBool("play")!;
@@ -181,8 +178,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    timer?.cancel();
+    _ad.dispose();
+    _interstitialAd?.dispose();
+    if (_appLifecycleReactor != null) {
+      WidgetsBinding.instance.removeObserver(_appLifecycleReactor!);
+    }
     super.dispose();
-    timer.cancel();
   }
 
   _displayDialog(BuildContext context) async {

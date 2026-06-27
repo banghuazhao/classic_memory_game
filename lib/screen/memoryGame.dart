@@ -50,15 +50,10 @@ class _MemoryState extends State<Memory> {
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
-          setState(() {
-            _isAdLoaded = true;
-          });
+          if (mounted) setState(() { _isAdLoaded = true; });
         },
         onAdFailedToLoad: (ad, error) {
-          // Releases an ad resource when it fails to load
           ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     );
@@ -73,8 +68,9 @@ class _MemoryState extends State<Memory> {
 
   @override
   void dispose() {
-    super.dispose();
     timer?.cancel();
+    _ad.dispose();
+    super.dispose();
   }
 
   setHighScore() async {
@@ -90,12 +86,11 @@ class _MemoryState extends State<Memory> {
 
   getHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
     if (myPrefs.getInt("highTurn") != null && myPrefs.getInt("highTime") != null) {
       setState(() {
         Data.highTurn = myPrefs.getInt("highTurn")!;
         Data.highTime = myPrefs.getInt("highTime")!;
-        print("highTurn: ${Data.highTurn}");
-        print("highTime: ${Data.highTime}");
       });
     }
   }
@@ -301,7 +296,7 @@ class _MemoryState extends State<Memory> {
                             }
                             if (ab % 2 != 0) {
                               Timer(Duration(milliseconds: sec), () {
-                                setState(() {
+                                if (mounted) setState(() {
                                   i = null;
                                   y = null;
                                   show = true;
@@ -409,7 +404,7 @@ class _MemoryState extends State<Memory> {
       });
     }
 
-    if (b.length >= a.length && Data.level == 5) {
+    if (b.length >= a.length && Data.level >= 5) {
       if (Data.highTurn != 0) {
         if (currentTurns == Data.highTurn) {
           if (currentTime < Data.highTime) {
@@ -456,7 +451,7 @@ class _MemoryState extends State<Memory> {
       }
     } else if (b.length >= a.length) {
       Timer(Duration(milliseconds: 350), () {
-        setState(() {
+        if (mounted) setState(() {
           Data.level++;
           nextLevel();
         });

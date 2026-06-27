@@ -41,7 +41,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
   List<String> a = [];
   List<String> b = [];
 
-  late Timer timer;
+  Timer? timer;
   int gameTime = 0;
 
   late BannerAd _ad;
@@ -59,15 +59,10 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
-          setState(() {
-            _isAdLoaded = true;
-          });
+          if (mounted) setState(() { _isAdLoaded = true; });
         },
         onAdFailedToLoad: (ad, error) {
-          // Releases an ad resource when it fails to load
           ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     );
@@ -80,8 +75,10 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
 
   @override
   void dispose() {
+    timer?.cancel();
+    _ad.dispose();
+    _interstitialAd?.dispose();
     super.dispose();
-    timer.cancel();
   }
 
   void _createInterstitialAd() {
@@ -175,7 +172,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         if (widget.challenge == 1) {
           if (gameTime >= 32) {
             setState(() {
-              timer.cancel();
+              timer?.cancel();
               allow = false;
               showWinDialog(S.of(context).Time_is_over);
             });
@@ -183,7 +180,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         } else if (widget.challenge == 3) {
           if (gameTime >= 34) {
             setState(() {
-              timer.cancel();
+              timer?.cancel();
               allow = false;
               showWinDialog(S.of(context).Time_is_over);
             });
@@ -191,7 +188,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         } else if (widget.challenge == 4) {
           if (gameTime >= 24) {
             setState(() {
-              timer.cancel();
+              timer?.cancel();
               allow = false;
               showWinDialog(S.of(context).Time_is_over);
             });
@@ -199,7 +196,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         } else if (widget.challenge == 6) {
           if (gameTime >= 26) {
             setState(() {
-              timer.cancel();
+              timer?.cancel();
               allow = false;
               showWinDialog(S.of(context).Time_is_over);
             });
@@ -207,7 +204,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         } else if (widget.challenge == 7) {
           if (gameTime >= 18) {
             setState(() {
-              timer.cancel();
+              timer?.cancel();
               allow = false;
               showWinDialog(S.of(context).Time_is_over);
             });
@@ -215,7 +212,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         } else if (widget.challenge == 9) {
           if (gameTime >= 20) {
             setState(() {
-              timer.cancel();
+              timer?.cancel();
               allow = false;
               showWinDialog(S.of(context).Time_is_over);
             });
@@ -462,7 +459,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
       });
       if (widget.challenge == 1) {
         setState(() {
-          timer.cancel();
+          timer?.cancel();
           Data.challenge_1 = true;
           setHighScore();
           showWinDialog(S.of(context).Challenge_completed_in +
@@ -481,7 +478,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         });
       } else if (widget.challenge == 3) {
         setState(() {
-          timer.cancel();
+          timer?.cancel();
           Data.challenge_3 = true;
           setHighScore();
           showWinDialog(S.of(context).Challenge_completed_in +
@@ -493,7 +490,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         });
       } else if (widget.challenge == 4) {
         setState(() {
-          timer.cancel();
+          timer?.cancel();
           Data.challenge_4 = true;
           setHighScore();
           showWinDialog(S.of(context).Challenge_completed_in +
@@ -512,7 +509,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         });
       } else if (widget.challenge == 6) {
         setState(() {
-          timer.cancel();
+          timer?.cancel();
           Data.challenge_6 = true;
           setHighScore();
           showWinDialog(S.of(context).Challenge_completed_in +
@@ -524,7 +521,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         });
       } else if (widget.challenge == 7) {
         setState(() {
-          timer.cancel();
+          timer?.cancel();
           Data.challenge_7 = true;
           setHighScore();
           showWinDialog(S.of(context).Challenge_completed_in +
@@ -543,7 +540,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         });
       } else if (widget.challenge == 9) {
         setState(() {
-          timer.cancel();
+          timer?.cancel();
           Data.challenge_9 = true;
           setHighScore();
           showWinDialog(S.of(context).Challenge_completed_in +
@@ -616,9 +613,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
       b = [];
       first();
       if (gameTime > 0) {
-        if (timer.isActive == true) {
-          timer.cancel();
-        }
+        timer?.cancel();
         gameTime = 0;
       }
       gameTime = 0;

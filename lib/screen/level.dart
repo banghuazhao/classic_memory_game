@@ -45,7 +45,7 @@ class _LevelsState extends State<Levels> {
   List<String> a = [];
   List<String> b = [];
 
-  late Timer timer;
+  Timer? timer;
   int gameTime = 0;
 
   late BannerAd _ad;
@@ -63,15 +63,10 @@ class _LevelsState extends State<Levels> {
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
-          setState(() {
-            _isAdLoaded = true;
-          });
+          if (mounted) setState(() { _isAdLoaded = true; });
         },
         onAdFailedToLoad: (ad, error) {
-          // Releases an ad resource when it fails to load
           ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     );
@@ -88,8 +83,10 @@ class _LevelsState extends State<Levels> {
 
   @override
   void dispose() {
+    timer?.cancel();
+    _ad.dispose();
+    _interstitialAd?.dispose();
     super.dispose();
-    timer.cancel();
   }
 
   setHighScore() async {
@@ -198,6 +195,7 @@ class _LevelsState extends State<Levels> {
 
   getHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
     if (widget.level == 1) {
       if (myPrefs.getInt("l1") != null && myPrefs.getInt("t1") != null) {
         setState(() {
@@ -484,7 +482,7 @@ class _LevelsState extends State<Levels> {
           if (remainingTime - gameTime == 0) {
             setState(() {
               allow = false;
-              timer.cancel();
+              timer?.cancel();
               showWinDialog(S.of(context).Time_is_over);
             });
           }
@@ -753,13 +751,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_1) {
             showWinDialog("   " +
@@ -770,11 +768,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -785,7 +783,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 2) {
         if (currentTurns == Data.level_2) {
@@ -798,11 +796,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else if (Data.level_2 != 0) {
           if (currentTurns < Data.level_2) {
@@ -814,12 +812,12 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -830,7 +828,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 3) {
         if (Data.level_3 != 0) {
@@ -844,13 +842,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_3) {
             showWinDialog("   " +
@@ -861,11 +859,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -876,7 +874,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 4) {
         if (Data.level_4 != 0) {
@@ -890,13 +888,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_4) {
             showWinDialog("   " +
@@ -907,11 +905,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -922,7 +920,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 5) {
         if (Data.level_5 != 0) {
@@ -936,13 +934,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_5) {
             showWinDialog("   " +
@@ -953,11 +951,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -968,7 +966,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 6) {
         if (Data.level_6 != 0) {
@@ -982,13 +980,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_6) {
             showWinDialog("   " +
@@ -999,11 +997,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1014,7 +1012,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 7) {
         if (Data.level_7 != 0) {
@@ -1028,13 +1026,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_7) {
             showWinDialog("   " +
@@ -1045,11 +1043,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1060,7 +1058,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 8) {
         if (Data.level_8 != 0) {
@@ -1074,13 +1072,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_8) {
             showWinDialog("   " +
@@ -1091,11 +1089,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1106,7 +1104,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 9) {
         if (Data.level_9 != 0) {
@@ -1120,13 +1118,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_9) {
             showWinDialog("   " +
@@ -1137,11 +1135,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1152,7 +1150,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 10) {
         if (Data.level_10 != 0) {
@@ -1166,13 +1164,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_10) {
             showWinDialog("   " +
@@ -1183,11 +1181,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1198,7 +1196,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 11) {
         if (Data.level_11 != 0) {
@@ -1212,13 +1210,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_11) {
             showWinDialog("   " +
@@ -1229,11 +1227,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1244,7 +1242,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 12) {
         if (Data.level_12 != 0) {
@@ -1258,13 +1256,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_12) {
             showWinDialog("   " +
@@ -1275,11 +1273,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1290,7 +1288,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 13) {
         if (Data.level_13 != 0) {
@@ -1304,13 +1302,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_13) {
             showWinDialog("   " +
@@ -1321,11 +1319,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1336,7 +1334,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 14) {
         if (Data.level_14 != 0) {
@@ -1350,13 +1348,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_14) {
             showWinDialog("   " +
@@ -1367,11 +1365,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1382,7 +1380,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       } else if (widget.level == 15) {
         if (Data.level_15 != 0) {
@@ -1396,13 +1394,13 @@ class _LevelsState extends State<Levels> {
                   " $gameTime " +
                   S.of(context).seconds);
               setHighScore();
-              timer.cancel();
+              timer?.cancel();
             } else {
               showWinDialog("$currentTurns " +
                   S.of(context).turns_in +
                   " $gameTime " +
                   S.of(context).seconds);
-              timer.cancel();
+              timer?.cancel();
             }
           } else if (currentTurns < Data.level_15) {
             showWinDialog("   " +
@@ -1413,11 +1411,11 @@ class _LevelsState extends State<Levels> {
                 " $gameTime " +
                 S.of(context).seconds);
             setHighScore();
-            timer.cancel();
+            timer?.cancel();
           } else {
             showWinDialog(
                 "$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
-            timer.cancel();
+            timer?.cancel();
           }
         } else {
           showWinDialog("   " +
@@ -1428,7 +1426,7 @@ class _LevelsState extends State<Levels> {
               " $gameTime " +
               S.of(context).seconds);
           setHighScore();
-          timer.cancel();
+          timer?.cancel();
         }
       }
     }
@@ -1449,7 +1447,7 @@ class _LevelsState extends State<Levels> {
       first();
       timeLeft();
       if (gameTime > 0) {
-        timer.cancel();
+        timer?.cancel();
         gameTime = 0;
       }
       gameTime = 0;
@@ -1477,7 +1475,7 @@ class _LevelsState extends State<Levels> {
       timeLeft();
       getHighScore();
       if (gameTime > 0) {
-        timer.cancel();
+        timer?.cancel();
         gameTime = 0;
       }
       gameTime = 0;
