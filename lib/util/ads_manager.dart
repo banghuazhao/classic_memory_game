@@ -60,8 +60,10 @@ class AdsManager {
   }
 
   static void debugPrintID() {
-    print("bannerAdUnitId: ${AdsManager.bannerAdUnitId}");
-    // print("openAdUnitID: ${AdsManager.openAdUnitID}");
+    assert(() {
+      print("bannerAdUnitId: ${AdsManager.bannerAdUnitId}");
+      return true;
+    }());
   }
 }
 
@@ -83,7 +85,7 @@ class AppOpenAdManager {
           _appOpenAd = ad;
         },
         onAdFailedToLoad: (error) {
-          print('AppOpenAd failed to load: $error');
+          assert(() { print('AppOpenAd failed to load: $error'); return true; }());
         },
       ),
     );
@@ -134,7 +136,6 @@ class AppLifecycleReactor extends WidgetsBindingObserver {
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     // Try to show an app open ad if the app is being resumed and
     // we're not already showing an app open ad.
-    print("didChangeAppLifecycleState: $state");
     if (state == AppLifecycleState.resumed) {
       if (AppOpenAdManager.shouldLoadAd) {
         appOpenAdManager.showAdIfAvailable();

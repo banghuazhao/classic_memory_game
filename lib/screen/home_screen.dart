@@ -270,7 +270,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (newCategory != null) {
       setState(() {
-        print(newCategory);
         _category = newCategory;
         CategoryHelper().set(newCategory);
       });
