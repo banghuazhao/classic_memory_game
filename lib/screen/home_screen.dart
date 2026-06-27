@@ -134,19 +134,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _playBgMusic() async {
-    await audioPlayer.setReleaseMode(ReleaseMode.loop);
-    await audioPlayer.play(AssetSource('audio/bg.mp3'));
-    Data.play = true;
+    try {
+      await audioPlayer.setReleaseMode(ReleaseMode.loop);
+      await audioPlayer.play(AssetSource('audio/bg.mp3'));
+      Data.play = true;
+    } catch (e) {
+      // Audio playback can fail on the iOS Simulator and in edge cases on
+      // device; never let it crash the app.
+      assert(() {
+        debugPrint('bg music failed to play: $e');
+        return true;
+      }());
+    }
   }
 
   Future<void> _resumeBgMusic() async {
-    final state = audioPlayer.state;
-    if (state == PlayerState.paused) {
-      await audioPlayer.resume();
-    } else if (state == PlayerState.stopped || state == PlayerState.completed) {
-      await _playBgMusic();
+    try {
+      final state = audioPlayer.state;
+      if (state == PlayerState.paused) {
+        await audioPlayer.resume();
+        Data.play = true;
+      } else if (state == PlayerState.stopped || state == PlayerState.completed) {
+        await _playBgMusic();
+      } else {
+        Data.play = true;
+      }
+    } catch (e) {
+      assert(() {
+        debugPrint('bg music failed to resume: $e');
+        return true;
+      }());
     }
-    Data.play = true;
   }
 
   getHighScore() async {

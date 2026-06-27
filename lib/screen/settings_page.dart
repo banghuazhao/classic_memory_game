@@ -21,18 +21,25 @@ class _SettingsPageState extends State<SettingsPage> {
     Data.neverPlay = !value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('play', !value);
-    if (value) {
-      final state = audioPlayer.state;
-      if (state == PlayerState.paused) {
-        await audioPlayer.resume();
+    try {
+      if (value) {
+        final state = audioPlayer.state;
+        if (state == PlayerState.paused) {
+          await audioPlayer.resume();
+        } else {
+          await audioPlayer.setReleaseMode(ReleaseMode.loop);
+          await audioPlayer.play(AssetSource('audio/bg.mp3'));
+        }
+        Data.play = true;
       } else {
-        await audioPlayer.setReleaseMode(ReleaseMode.loop);
-        await audioPlayer.play(AssetSource('audio/bg.mp3'));
+        await audioPlayer.pause();
+        Data.play = false;
       }
-      Data.play = true;
-    } else {
-      await audioPlayer.pause();
-      Data.play = false;
+    } catch (e) {
+      assert(() {
+        debugPrint('bg music toggle failed: $e');
+        return true;
+      }());
     }
   }
 

@@ -439,7 +439,9 @@ class _LevelsState extends State<Levels> {
 
   check() {
     if (q == w) {
-      if (Data.soundEffects) FlameAudio.play('match.mp3');
+      if (Data.soundEffects) {
+        FlameAudio.play('match.mp3').then((_) {}, onError: (_, __) {});
+      }
       b.add(w);
       b.add(q);
       setState(() {
