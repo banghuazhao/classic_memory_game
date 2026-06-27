@@ -1,0 +1,20 @@
+Classic Memory Game is the ultimate card-matching brain trainer for all ages!
+
+Flip cards and find matching pairs across three exciting game modes:
+
+🎮 GAME MODES
+• Levels – 15 timed levels with increasing difficulty and grid sizes
+• Challenges – 9 unique challenges with special win conditions
+• Marathon – Endless mode across 6 progressive stages with personal best tracking
+
+🎨 CARD THEMES
+Choose from 6 fun card themes: Candy, Fruit, Animal, Emoji, Numbers, and Symbols
+
+🏆 FEATURES
+• Personal best scores for every level
+• Smooth, responsive card flip gameplay
+• Background music and satisfying sound effects
+• Clean, minimal design that's easy on the eyes
+• Supports English, Simplified Chinese, and Traditional Chinese
+
+Perfect for a quick brain workout or a relaxing session of memory training. Challenge yourself to beat your high score!

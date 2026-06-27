@@ -1,0 +1,16 @@
+default_platform(:android)
+
+platform :android do
+  desc "Upload AAB to Google Play internal track"
+  lane :deploy do
+    upload_to_play_store(
+      package_name: "com.appsbay.classic_memory_game",
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      json_key: "/Users/banghuazhao/Development/secret/Google Player API/mythic-chalice-500222-e8-5c73614083b4.json",
+      track: "internal",
+      release_status: "draft",
+      skip_upload_screenshots: true,
+      skip_upload_images: true
+    )
+  end
+end

@@ -1,0 +1,4 @@
+• Updated to target Android 15 (API 36) for full compatibility
+• Performance improvements and bug fixes
+• Fixed memory leaks and stability issues
+• Smoother gameplay experience
