@@ -48,3 +48,7 @@ app.*.map.json
 # AdMob production IDs — create from the .example files before building for release
 lib/util/ads_config.dart
 ios/Flutter/AdsConfig.xcconfig
+
+# Fastlane — local config and generated artifacts
+android/fastlane/report.xml
+android/fastlane/Appfile
