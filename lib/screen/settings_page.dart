@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:classic_memory_game/data/data.dart';
 import 'package:classic_memory_game/screen/colors.dart';
 import 'package:classic_memory_game/screen/home_screen.dart';
@@ -21,10 +22,16 @@ class _SettingsPageState extends State<SettingsPage> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('play', !value);
     if (value) {
-      audioPlayer.resume();
+      final state = audioPlayer.state;
+      if (state == PlayerState.paused) {
+        await audioPlayer.resume();
+      } else {
+        await audioPlayer.setReleaseMode(ReleaseMode.loop);
+        await audioPlayer.play(AssetSource('audio/bg.mp3'));
+      }
       Data.play = true;
     } else {
-      audioPlayer.pause();
+      await audioPlayer.pause();
       Data.play = false;
     }
   }

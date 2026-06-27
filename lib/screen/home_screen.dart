@@ -116,35 +116,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.paused:
-        if (Data.neverPlay == false) {
-          setState(() {
-            audioPlayer.pause();
-            Data.play = false;
-          });
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+        if (!Data.neverPlay) {
+          audioPlayer.pause();
+          Data.play = false;
         }
         break;
       case AppLifecycleState.resumed:
-        if (Data.neverPlay == false) {
-          setState(() {
-            audioPlayer.resume();
-            Data.play = true;
-          });
-        }
-        break;
-      case AppLifecycleState.inactive:
-        if (Data.neverPlay == false) {
-          setState(() {
-            audioPlayer.pause();
-            Data.play = false;
-          });
-        }
-        break;
-      case AppLifecycleState.detached:
-        if (Data.neverPlay == false) {
-          setState(() {
-            audioPlayer.pause();
-            Data.play = false;
-          });
+        if (!Data.neverPlay) {
+          _resumeBgMusic();
         }
         break;
       default:
@@ -152,11 +133,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
-  // playAgain() async {
-  //   await audioPlayer.play(Data.music == ""
-  //       ? "https://firebasestorage.googleapis.com/v0/b/memory-game-3236c.appspot.com/o/ES_Gentle%20Melody%20-%20Megan%20Wofford.mp3?alt=media&token=987b1275-673c-4cb2-9919-ec088b2c662a"
-  //       : Data.music);
-  // }
+  Future<void> _playBgMusic() async {
+    await audioPlayer.setReleaseMode(ReleaseMode.loop);
+    await audioPlayer.play(AssetSource('audio/bg.mp3'));
+    Data.play = true;
+  }
+
+  Future<void> _resumeBgMusic() async {
+    final state = audioPlayer.state;
+    if (state == PlayerState.paused) {
+      await audioPlayer.resume();
+    } else if (state == PlayerState.stopped || state == PlayerState.completed) {
+      await _playBgMusic();
+    }
+    Data.play = true;
+  }
 
   getHighScore() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
@@ -170,6 +161,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       setState(() {
         Data.soundEffects = myPrefs.getBool("soundEffects")!;
       });
+    }
+    if (!Data.neverPlay) {
+      await _playBgMusic();
     }
   }
 
