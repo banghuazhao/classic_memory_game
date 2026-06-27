@@ -310,7 +310,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     curve: Curves.bounceInOut,
-                    height: 240,
                     child: Card(
                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       color: Color(0xffFCEADA),
