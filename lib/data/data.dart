@@ -51,6 +51,8 @@ class Data {
 
   static bool play = true;
   static bool neverPlay = false;
+  static bool bgMusicEnabled = true;
+  static String bgMusicTrack = 'Calm';
   static bool soundEffects = true;
   static String music = "";
 

@@ -1,16 +1,14 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:classic_memory_game/data/data.dart';
 import 'package:classic_memory_game/generated/l10n.dart';
 import 'package:classic_memory_game/screen/challenges.dart';
 import 'package:classic_memory_game/screen/memoryGame.dart';
 import 'package:classic_memory_game/util/ads_manager.dart';
+import 'package:classic_memory_game/util/audio_manager.dart';
 import 'package:classic_memory_game/util/others.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'challenges_page.dart';
 import 'colors.dart';
@@ -23,8 +21,6 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
-AudioPlayer audioPlayer = AudioPlayer();
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -118,71 +114,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
-        if (!Data.neverPlay) {
-          audioPlayer.pause();
-          Data.play = false;
-        }
+        AudioManager.instance.pause();
         break;
       case AppLifecycleState.resumed:
-        if (!Data.neverPlay) {
-          _resumeBgMusic();
-        }
+        AudioManager.instance.resume();
         break;
       default:
         break;
     }
   }
 
-  Future<void> _playBgMusic() async {
-    try {
-      await audioPlayer.setReleaseMode(ReleaseMode.loop);
-      await audioPlayer.play(AssetSource('audio/bg.mp3'));
-      Data.play = true;
-    } catch (e) {
-      // Audio playback can fail on the iOS Simulator and in edge cases on
-      // device; never let it crash the app.
-      assert(() {
-        debugPrint('bg music failed to play: $e');
-        return true;
-      }());
-    }
-  }
-
-  Future<void> _resumeBgMusic() async {
-    try {
-      final state = audioPlayer.state;
-      if (state == PlayerState.paused) {
-        await audioPlayer.resume();
-        Data.play = true;
-      } else if (state == PlayerState.stopped || state == PlayerState.completed) {
-        await _playBgMusic();
-      } else {
-        Data.play = true;
-      }
-    } catch (e) {
-      assert(() {
-        debugPrint('bg music failed to resume: $e');
-        return true;
-      }());
-    }
-  }
-
   getHighScore() async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
     if (!mounted) return;
-    if (myPrefs.getBool("play") != null) {
-      setState(() {
-        Data.neverPlay = myPrefs.getBool("play")!;
-      });
-    }
-    if (myPrefs.getBool("soundEffects") != null) {
-      setState(() {
-        Data.soundEffects = myPrefs.getBool("soundEffects")!;
-      });
-    }
-    if (!Data.neverPlay) {
-      await _playBgMusic();
-    }
+    await AudioManager.instance.init();
+    if (mounted) setState(() {});
   }
 
   @override

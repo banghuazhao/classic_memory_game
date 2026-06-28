@@ -12,6 +12,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'colors.dart';
+import 'flip_card.dart';
 
 // ignore: must_be_immutable
 class ChallengesLevel extends StatefulWidget {
@@ -153,18 +154,6 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
     a.shuffle();
   }
 
-  number(int index) {
-    if (index == i || y == index) {
-      return Text(Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
-          style: TextStyle(
-            fontSize: 40,
-            color: Colors.white,
-          ));
-    } else {
-      return Icon(Icons.help_rounded, size: 40, color: MyColors.mainText.withOpacity(0.85));
-    }
-  }
-
   static const _challengeTimeLimit = <int, int>{
     1: 32, 3: 34, 4: 24, 6: 26, 7: 18, 9: 20,
   };
@@ -277,21 +266,23 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
                       mainAxisSpacing: 4,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
+                      final isMatched = b.contains(a[index]);
+                      final isRevealed = i == index || y == index;
+                      final emoji = Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])];
+                      return MemoryCard(
+                        isMatched: isMatched,
+                        isRevealed: isRevealed,
+                        front: Text(emoji, style: const TextStyle(fontSize: 40)),
+                        back: Icon(Icons.help_rounded,
+                            size: 40, color: MyColors.mainText.withOpacity(0.85)),
                         onTap: () {
                           if (allow == true) {
-                            setState(() {
-                              choose = false;
-                            });
+                            setState(() { choose = false; });
                             if (numberOfTurns == 0) {
-                              if (Data.showAds == true) {
-                                _ad.load();
-                              }
-                              if (widget.challenge != 2) {
-                                time();
-                              }
+                              if (Data.showAds == true) _ad.load();
+                              if (widget.challenge != 2) time();
                             }
-                            if (i != index && !b.contains(a[index]) && show == true) {
+                            if (i != index && !isMatched && show == true) {
                               setState(() {
                                 numberOfTurns++;
                                 i = index;
@@ -305,11 +296,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
                                 }
                                 if (ab % 2 != 0) {
                                   Timer(Duration(milliseconds: sec), () {
-                                    setState(() {
-                                      i = null;
-                                      y = null;
-                                      show = true;
-                                    });
+                                    setState(() { i = null; y = null; show = true; });
                                   });
                                   sec = 700;
                                 }
@@ -318,28 +305,6 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
                             }
                           }
                         },
-                        child: Card(
-                          color: b.contains(a[index])
-                              ? Color(0xff7C8D6E)
-                              : i == index || y == index
-                                  ? Color(0xff8697A4)
-                                  : MyColors.cardBackground,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 8,
-                          child: Center(
-                            child: b.contains(a[index])
-                                ? Text(
-                                    Data.categoryMapping[CategoryHelper().category]!
-                                        [int.parse(a[index])],
-                                    style: TextStyle(
-                                      fontSize: 40,
-                                      color: Colors.white,
-                                    ))
-                                : number(index),
-                          ),
-                        ),
                       );
                     },
                   ),

@@ -13,6 +13,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'colors.dart';
+import 'flip_card.dart';
 
 // ignore: must_be_immutable
 class Levels extends StatefulWidget {
@@ -332,19 +333,24 @@ class _LevelsState extends State<Levels> {
                     mainAxisSpacing: 4,
                   ),
                   itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
+                    final isMatched = b.contains(a[index]);
+                    final isRevealed = i == index || y == index;
+                    final emoji = Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])];
+                    final fontSize = (_level <= 2 || _level == 4) ? 50.0 : 40.0;
+                    return MemoryCard(
+                      isMatched: isMatched,
+                      isRevealed: isRevealed,
+                      front: Text(emoji, style: TextStyle(fontSize: fontSize)),
+                      back: Icon(Icons.help_rounded,
+                          size: fontSize, color: MyColors.mainText.withOpacity(0.85)),
                       onTap: () {
                         if (allow == true) {
-                          setState(() {
-                            choose = false;
-                          });
+                          setState(() { choose = false; });
                           if (currentTurns == 0) {
                             time();
-                            if (Data.showAds == true) {
-                              _ad.load();
-                            }
+                            if (Data.showAds == true) _ad.load();
                           }
-                          if (i != index && !b.contains(a[index]) && show == true) {
+                          if (i != index && !isMatched && show == true) {
                             setState(() {
                               currentTurns++;
                               i = index;
@@ -358,11 +364,7 @@ class _LevelsState extends State<Levels> {
                               }
                               if (ab % 2 != 0) {
                                 Timer(Duration(milliseconds: sec), () {
-                                  setState(() {
-                                    i = null;
-                                    y = null;
-                                    show = true;
-                                  });
+                                  setState(() { i = null; y = null; show = true; });
                                 });
                                 sec = 700;
                               }
@@ -371,17 +373,6 @@ class _LevelsState extends State<Levels> {
                           }
                         }
                       },
-                      child: Card(
-                          color: b.contains(a[index])
-                              ? Color(0xff7C8D6E)
-                              : i == index || y == index
-                                  ? Color(0xff8697A4)
-                                  : MyColors.cardBackground,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 8,
-                          child: memoryCardText(index)),
                     );
                   },
                 ),
@@ -400,41 +391,6 @@ class _LevelsState extends State<Levels> {
         ),
       ),
     );
-  }
-
-  memoryCardText(int index) {
-    double size = _level == 1
-        ? 50
-        : _level == 2
-            ? 50
-            : _level == 3
-                ? 40
-                : _level == 4
-                    ? 50
-                    : 40;
-    return Center(
-      child: b.contains(a[index])
-          ? Text(
-              Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
-              style: TextStyle(
-                fontSize: size,
-                color: Colors.white,
-              ),
-            )
-          : number(index, size),
-    );
-  }
-
-  number(int index, double size) {
-    if (index == i || y == index) {
-      return Text(Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])],
-          style: TextStyle(
-            fontSize: size,
-            color: Colors.white,
-          ));
-    } else {
-      return Icon(Icons.help_rounded, size: size, color: MyColors.mainText.withOpacity(0.85));
-    }
   }
 
   check() {
