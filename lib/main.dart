@@ -3,7 +3,6 @@ import 'package:classic_memory_game/screen/home_screen.dart';
 import 'package:classic_memory_game/util/ads_manager.dart';
 import 'package:classic_memory_game/util/in_app_reviewer_helper.dart';
 import 'package:classic_memory_game/util/others.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,8 +12,6 @@ import 'generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  FlameAudio.loop('bg.mp3');
 
   Future.delayed(const Duration(seconds: 1), () {
     AppTrackingTransparency.requestTrackingAuthorization();
