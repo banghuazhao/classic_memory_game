@@ -162,7 +162,7 @@ class _ChallengesState extends State<Challenges> {
           style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },

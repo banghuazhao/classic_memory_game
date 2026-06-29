@@ -73,7 +73,7 @@ class _ChooseChallengesState extends State<ChooseChallenges> {
         ),
         leading: IconButton(
           color: Colors.white,
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },

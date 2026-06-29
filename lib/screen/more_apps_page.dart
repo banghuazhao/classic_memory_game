@@ -162,10 +162,7 @@ class MoreAppsPage extends StatelessWidget {
           ),
           elevation: 0,
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
             onPressed: () {
               Navigator.pop(context);
             },

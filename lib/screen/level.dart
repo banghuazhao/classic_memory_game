@@ -204,20 +204,52 @@ class _LevelsState extends State<Levels> {
     });
   }
 
+  bool get _gameInProgress => a.isNotEmpty && b.length < a.length;
+
+  Future<void> _confirmExit() async {
+    if (!_gameInProgress) { Navigator.of(context).pop(); return; }
+    timer?.cancel();
+    final quit = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text('Quit game?', style: TextStyle(fontWeight: FontWeight.w700)),
+        content: Text('Your progress on this level will be lost.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text('Continue playing'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text('Quit', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+    if (quit == true) {
+      if (mounted) Navigator.of(context).pop();
+    } else {
+      // resume timer if game is still running
+      if (_gameInProgress && allow) time();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double sidePadding = screenWidth > 500 ? screenWidth * 0.2 : 20;
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) { if (!didPop) _confirmExit(); },
+      child: Scaffold(
       backgroundColor: MyColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: _confirmExit,
         ),
         title: Text(
           S.of(context).Level + " ${_level}",
@@ -373,7 +405,8 @@ class _LevelsState extends State<Levels> {
           ],
         ),
       ),
-    );
+    ), // child: Scaffold
+    ); // PopScope
   }
 
   check() {

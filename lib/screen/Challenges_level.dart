@@ -178,11 +178,44 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
     });
   }
 
+  bool get _gameInProgress => a.isNotEmpty && b.length < a.length;
+
+  Future<void> _confirmExit() async {
+    if (!_gameInProgress) { Navigator.pop(context, "back"); return; }
+    timer?.cancel();
+    final quit = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text('Quit challenge?', style: TextStyle(fontWeight: FontWeight.w700)),
+        content: Text('Your progress on this challenge will be lost.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text('Continue playing'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text('Quit', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+    if (quit == true) {
+      if (mounted) Navigator.pop(context, "back");
+    } else {
+      if (_gameInProgress && allow) time();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double sidePadding = screenWidth > 500 ? screenWidth * 0.15 : 10;
-    return GestureDetector(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) { if (!didPop) _confirmExit(); },
+      child: GestureDetector(
       onTap: () {
         setState(() {
           choose = false;
@@ -194,10 +227,8 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context, "back");
-            },
+            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            onPressed: _confirmExit,
           ),
           title: Text(
             S.of(context).Challenge + " ${widget.challenge}",
@@ -331,7 +362,8 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
           ),
         ),
       ),
-    );
+    ), // child: GestureDetector
+    ); // PopScope
   }
 
   Text buildChallengeText() {
