@@ -94,13 +94,19 @@ class _TrackPickerCard extends StatelessWidget {
     'Calm': Icons.self_improvement_rounded,
     'Upbeat': Icons.celebration_rounded,
     'Peaceful': Icons.spa_rounded,
+    'Classical': Icons.piano_rounded,
+    'Rain': Icons.water_drop_rounded,
+    'Forest': Icons.forest_rounded,
   };
 
   static const _trackDescriptions = <String, String>{
     'None': 'No music',
     'Calm': 'Relaxed & cozy',
-    'Upbeat': 'Energetic & fun',
-    'Peaceful': 'Gentle & serene',
+    'Upbeat': 'Classic tavern energy',
+    'Peaceful': 'Birdsong & nature',
+    'Classical': 'Mozart — aids focus',
+    'Rain': 'Light rain ambience',
+    'Forest': 'Creek & woodland sounds',
   };
 
   @override

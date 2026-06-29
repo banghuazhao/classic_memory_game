@@ -21,6 +21,9 @@ class AudioManager {
     'Calm': 'audio/bg.mp3',
     'Upbeat': 'audio/bg_upbeat.mp3',
     'Peaceful': 'audio/bg_peaceful.mp3',
+    'Classical': 'audio/bg_classical.mp3',
+    'Rain': 'audio/bg_rain.mp3',
+    'Forest': 'audio/bg_forest.mp3',
   };
 
   bool get isEnabled => Data.bgMusicEnabled;
