@@ -64,8 +64,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     _ad.load();
 
-    getHighScore();
     WidgetsBinding.instance.addObserver(this);
+    // Defer audio init to after the first frame so all platform plugins are ready
+    WidgetsBinding.instance.addPostFrameCallback((_) => getHighScore());
     // musicName();
     // showAds();
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();

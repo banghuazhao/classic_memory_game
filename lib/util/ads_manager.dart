@@ -99,7 +99,7 @@ class AppOpenAdManager {
       return;
     }
     if (_isShowingAd) return;
-    if (DateTime.now().subtract(maxCacheDuration).isAfter(_appOpenLoadTime!)) {
+    if (_appOpenLoadTime == null || DateTime.now().subtract(maxCacheDuration).isAfter(_appOpenLoadTime!)) {
       _appOpenAd!.dispose();
       _appOpenAd = null;
       loadAd();
