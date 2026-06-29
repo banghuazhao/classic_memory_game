@@ -37,27 +37,40 @@ platform :ios do
     )
   end
 
-  desc "Update What's New release notes on App Store Connect"
+  desc "Update What's New release notes on App Store Connect via REST API"
   lane :release_notes do
-    api_key = app_store_connect_api_key(
+    require 'spaceship'
+
+    token = Spaceship::ConnectAPI::Token.create(
       key_id: "9TKVU36G25",
       issuer_id: "947c7ee7-4c99-4b7a-96b7-227a9bf35ed5",
-      key_filepath: "/Users/banghuazhao/Development/secret/AppStore Connect API keys/AuthKey_9TKVU36G25.p8",
-      duration: 1200,
-      in_house: false
+      filepath: "/Users/banghuazhao/Development/secret/AppStore Connect API keys/AuthKey_9TKVU36G25.p8",
+      duration: 1200
     )
+    Spaceship::ConnectAPI.token = token
 
-    deliver(
-      api_key: api_key,
-      app_identifier: "com.appsbay.classicMemoryGame",
-      skip_binary_upload: true,
-      skip_screenshots: true,
-      skip_metadata: false,
-      metadata_path: File.join(__dir__, "metadata"),
-      submit_for_review: false,
-      automatic_release: false,
-      precheck_include_in_app_purchases: false,
-      force: true
-    )
+    notes = File.read(File.join(__dir__, "metadata/en-US/release_notes.txt"))
+
+    app = Spaceship::ConnectAPI::App.find("com.appsbay.classicMemoryGame")
+    version = app.get_edit_app_store_version(platform: Spaceship::ConnectAPI::Platform::IOS)
+    UI.user_error!("No editable version found") unless version
+
+    localizations = version.get_app_store_version_localizations
+    loc = localizations.find { |l| l.locale == "en-US" }
+    UI.user_error!("en-US localization not found") unless loc
+
+    UI.message("Found localization: #{loc.locale} (id=#{loc.id})")
+    UI.message("Current whats_new: #{loc.whats_new.inspect}")
+
+    begin
+      Spaceship::ConnectAPI.patch_app_store_version_localization(
+        app_store_version_localization_id: loc.id,
+        attributes: { "whatsNew" => notes }
+      )
+      UI.success("Release notes updated for version #{version.version_string}")
+    rescue => e
+      UI.error("#{e.class}: #{e.message}")
+      raise
+    end
   end
 end
