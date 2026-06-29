@@ -155,7 +155,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
   }
 
   static const _challengeTimeLimit = <int, int>{
-    1: 32, 3: 34, 4: 24, 6: 26, 7: 18, 9: 20,
+    1: 40, 3: 38, 4: 30, 6: 28, 7: 24, 9: 22,
   };
 
   time() {
@@ -329,31 +329,31 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
   Text buildChallengeText() {
     String text = "";
     if (widget.challenge == 1) {
-      text = "${32 - gameTime} " + S.of(context).seconds_left;
+      text = "${40 - gameTime} " + S.of(context).seconds_left;
     } else if (widget.challenge == 2) {
-      text = "${46 - numberOfTurns} " + S.of(context).turns_left;
+      text = "${40 - numberOfTurns} " + S.of(context).turns_left;
     } else if (widget.challenge == 3) {
-      text = "${48 - numberOfTurns} " +
+      text = "${44 - numberOfTurns} " +
           S.of(context).turns +
-          " ${34 - gameTime} " +
+          " ${38 - gameTime} " +
           S.of(context).seconds_left;
     } else if (widget.challenge == 4) {
-      text = "${24 - gameTime} " + S.of(context).seconds_left;
+      text = "${30 - gameTime} " + S.of(context).seconds_left;
     } else if (widget.challenge == 5) {
-      text = "${40 - numberOfTurns}  " + S.of(context).turns_left;
+      text = "${32 - numberOfTurns}  " + S.of(context).turns_left;
     } else if (widget.challenge == 6) {
-      text = "${42 - numberOfTurns} " +
+      text = "${36 - numberOfTurns} " +
           S.of(context).turns +
-          " ${26 - gameTime} " +
+          " ${28 - gameTime} " +
           S.of(context).seconds_left;
     } else if (widget.challenge == 7) {
-      text = "${18 - gameTime} " + S.of(context).seconds_left;
+      text = "${24 - gameTime} " + S.of(context).seconds_left;
     } else if (widget.challenge == 8) {
-      text = "${32 - numberOfTurns}  " + S.of(context).turns_left;
+      text = "${26 - numberOfTurns}  " + S.of(context).turns_left;
     } else if (widget.challenge == 9) {
-      text = "${34 - numberOfTurns} " +
+      text = "${30 - numberOfTurns} " +
           S.of(context).turns +
-          " ${20 - gameTime} " +
+          " ${22 - gameTime} " +
           S.of(context).seconds_left;
     }
 
@@ -480,42 +480,42 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
     }
 
     if (widget.challenge == 2) {
-      if (numberOfTurns >= 46) {
-        setState(() {
-          allow = false;
-          showWinDialog(S.of(context).Turns_are_over);
-        });
-      }
-    } else if (widget.challenge == 3) {
-      if (numberOfTurns >= 48) {
-        setState(() {
-          allow = false;
-          showWinDialog(S.of(context).Turns_are_over);
-        });
-      }
-    } else if (widget.challenge == 5) {
       if (numberOfTurns >= 40) {
         setState(() {
           allow = false;
           showWinDialog(S.of(context).Turns_are_over);
         });
       }
-    } else if (widget.challenge == 6) {
-      if (numberOfTurns >= 42) {
+    } else if (widget.challenge == 3) {
+      if (numberOfTurns >= 44) {
         setState(() {
           allow = false;
           showWinDialog(S.of(context).Turns_are_over);
         });
       }
-    } else if (widget.challenge == 8) {
+    } else if (widget.challenge == 5) {
       if (numberOfTurns >= 32) {
         setState(() {
           allow = false;
           showWinDialog(S.of(context).Turns_are_over);
         });
       }
+    } else if (widget.challenge == 6) {
+      if (numberOfTurns >= 36) {
+        setState(() {
+          allow = false;
+          showWinDialog(S.of(context).Turns_are_over);
+        });
+      }
+    } else if (widget.challenge == 8) {
+      if (numberOfTurns >= 26) {
+        setState(() {
+          allow = false;
+          showWinDialog(S.of(context).Turns_are_over);
+        });
+      }
     } else if (widget.challenge == 9) {
-      if (numberOfTurns >= 34) {
+      if (numberOfTurns >= 30) {
         setState(() {
           allow = false;
           showWinDialog(S.of(context).Turns_are_over);

@@ -161,37 +161,26 @@ class _LevelsState extends State<Levels> {
     await myPrefs.setBool("share", Data.share);
   }
 
+  // pairs per level: 1-2=6, 3-6=8, 7-15=10
+  static const _levelPairs = <int, int>{
+    1: 6, 2: 6, 3: 8, 4: 8, 5: 8, 6: 8,
+    7: 10, 8: 10, 9: 10, 10: 10, 11: 10, 12: 10, 13: 10, 14: 10, 15: 10,
+  };
+
   first() {
-    for (int i = 1;
-        _level == 1
-            ? i <= 6
-            : _level == 2
-                ? i <= 6
-                : _level == 3
-                    ? i <= 8
-                    : _level == 4
-                        ? i <= 6
-                        : _level == 5
-                            ? i <= 8
-                            : _level == 6
-                                ? i <= 8
-                                : _level == 7
-                                    ? i <= 10
-                                    : _level == 8
-                                        ? i <= 10
-                                        : _level == 9
-                                            ? i <= 10
-                                            : i <= 10;
-        i++) {
+    final pairs = _levelPairs[_level] ?? 10;
+    for (int i = 1; i <= pairs; i++) {
       a.add(i.toString());
       a.add(i.toString());
     }
     a.shuffle();
   }
 
+  // Time limits designed as a smooth ramp (~4s/pair → ~2.5s/pair).
+  // L1-2: 6 pairs, L3-6: 8 pairs, L7-15: 10 pairs.
   static const _levelTimeLimit = <int, int>{
-    1: 18, 2: 15, 3: 20, 4: 15, 5: 18, 6: 22, 7: 24,
-    8: 30, 9: 34, 10: 35, 11: 28, 12: 24, 13: 28, 14: 26, 15: 30,
+    1: 26, 2: 22, 3: 36, 4: 32, 5: 28, 6: 24,
+    7: 45, 8: 40, 9: 36, 10: 33, 11: 30, 12: 28, 13: 27, 14: 26, 15: 25,
   };
 
   timeLeft() {
@@ -320,15 +309,7 @@ class _LevelsState extends State<Levels> {
                   physics: BouncingScrollPhysics(),
                   itemCount: a.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _level == 1
-                        ? 3
-                        : _level == 2
-                            ? 3
-                            : _level == 3
-                                ? 4
-                                : _level == 4
-                                    ? 3
-                                    : 4,
+                    crossAxisCount: (_level <= 2) ? 3 : 4,
                     crossAxisSpacing: 4,
                     mainAxisSpacing: 4,
                   ),
@@ -336,7 +317,7 @@ class _LevelsState extends State<Levels> {
                     final isMatched = b.contains(a[index]);
                     final isRevealed = i == index || y == index;
                     final emoji = Data.categoryMapping[CategoryHelper().category]![int.parse(a[index])];
-                    final fontSize = (_level <= 2 || _level == 4) ? 50.0 : 40.0;
+                    final fontSize = (_level <= 2) ? 50.0 : 40.0;
                     return MemoryCard(
                       isMatched: isMatched,
                       isRevealed: isRevealed,
