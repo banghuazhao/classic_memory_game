@@ -20,6 +20,11 @@ class Data {
   static int level_13 = 0;
   static int level_14 = 0;
   static int level_15 = 0;
+  static int level_16 = 0;
+  static int level_17 = 0;
+  static int level_18 = 0;
+  static int level_19 = 0;
+  static int level_20 = 0;
 
   static int time_1 = 0;
   static int time_2 = 0;
@@ -36,6 +41,11 @@ class Data {
   static int time_13 = 0;
   static int time_14 = 0;
   static int time_15 = 0;
+  static int time_16 = 0;
+  static int time_17 = 0;
+  static int time_18 = 0;
+  static int time_19 = 0;
+  static int time_20 = 0;
 
   static bool challenge_1 = false;
   static bool challenge_2 = false;
@@ -46,6 +56,9 @@ class Data {
   static bool challenge_7 = false;
   static bool challenge_8 = false;
   static bool challenge_9 = false;
+  static bool challenge_10 = false;
+  static bool challenge_11 = false;
+  static bool challenge_12 = false;
 
   static int playerLevel = 1;
 
@@ -152,6 +165,8 @@ class Data {
       case 7: return level_7; case 8: return level_8; case 9: return level_9;
       case 10: return level_10; case 11: return level_11; case 12: return level_12;
       case 13: return level_13; case 14: return level_14; case 15: return level_15;
+      case 16: return level_16; case 17: return level_17; case 18: return level_18;
+      case 19: return level_19; case 20: return level_20;
       default: return 0;
     }
   }
@@ -163,6 +178,8 @@ class Data {
       case 7: return time_7; case 8: return time_8; case 9: return time_9;
       case 10: return time_10; case 11: return time_11; case 12: return time_12;
       case 13: return time_13; case 14: return time_14; case 15: return time_15;
+      case 16: return time_16; case 17: return time_17; case 18: return time_18;
+      case 19: return time_19; case 20: return time_20;
       default: return 0;
     }
   }
@@ -184,6 +201,11 @@ class Data {
       case 13: level_13 = turns; time_13 = time; break;
       case 14: level_14 = turns; time_14 = time; break;
       case 15: level_15 = turns; time_15 = time; break;
+      case 16: level_16 = turns; time_16 = time; break;
+      case 17: level_17 = turns; time_17 = time; break;
+      case 18: level_18 = turns; time_18 = time; break;
+      case 19: level_19 = turns; time_19 = time; break;
+      case 20: level_20 = turns; time_20 = time; break;
     }
   }
 

@@ -161,10 +161,11 @@ class _LevelsState extends State<Levels> {
     await myPrefs.setBool("share", Data.share);
   }
 
-  // pairs per level: 1-2=6, 3-6=8, 7-15=10
+  // pairs per level: 1-2=6, 3-6=8, 7-15=10, 16-20=12
   static const _levelPairs = <int, int>{
     1: 6, 2: 6, 3: 8, 4: 8, 5: 8, 6: 8,
     7: 10, 8: 10, 9: 10, 10: 10, 11: 10, 12: 10, 13: 10, 14: 10, 15: 10,
+    16: 12, 17: 12, 18: 12, 19: 12, 20: 12,
   };
 
   first() {
@@ -176,11 +177,12 @@ class _LevelsState extends State<Levels> {
     a.shuffle();
   }
 
-  // Time limits designed as a smooth ramp (~4s/pair → ~2.5s/pair).
-  // L1-2: 6 pairs, L3-6: 8 pairs, L7-15: 10 pairs.
+  // Time limits: smooth ramp ~4s/pair (easy) → ~2.5s/pair (hard).
+  // L1-2: 6 pairs, L3-6: 8 pairs, L7-15: 10 pairs, L16-20: 12 pairs.
   static const _levelTimeLimit = <int, int>{
     1: 26, 2: 22, 3: 36, 4: 32, 5: 28, 6: 24,
     7: 45, 8: 40, 9: 36, 10: 33, 11: 30, 12: 28, 13: 27, 14: 26, 15: 25,
+    16: 48, 17: 44, 18: 40, 19: 36, 20: 32,
   };
 
   timeLeft() {
@@ -388,7 +390,7 @@ class _LevelsState extends State<Levels> {
 
     if (b.length >= a.length) {
       setState(() {
-        if (_level <= 14) {
+        if (_level <= 19) {
           nextLevel = true;
         }
       });
@@ -1087,6 +1089,111 @@ class _LevelsState extends State<Levels> {
               S.of(context).seconds);
           setHighScore();
           timer?.cancel();
+        }
+      } else if (_level == 16) {
+        if (Data.level_16 != 0) {
+          if (currentTurns == Data.level_16) {
+            if (gameTime < Data.time_16) {
+              showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              setHighScore(); timer?.cancel();
+            } else {
+              showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              timer?.cancel();
+            }
+          } else if (currentTurns < Data.level_16) {
+            showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            setHighScore(); timer?.cancel();
+          } else {
+            showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            timer?.cancel();
+          }
+        } else {
+          showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+          setHighScore(); timer?.cancel();
+        }
+      } else if (_level == 17) {
+        if (Data.level_17 != 0) {
+          if (currentTurns == Data.level_17) {
+            if (gameTime < Data.time_17) {
+              showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              setHighScore(); timer?.cancel();
+            } else {
+              showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              timer?.cancel();
+            }
+          } else if (currentTurns < Data.level_17) {
+            showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            setHighScore(); timer?.cancel();
+          } else {
+            showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            timer?.cancel();
+          }
+        } else {
+          showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+          setHighScore(); timer?.cancel();
+        }
+      } else if (_level == 18) {
+        if (Data.level_18 != 0) {
+          if (currentTurns == Data.level_18) {
+            if (gameTime < Data.time_18) {
+              showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              setHighScore(); timer?.cancel();
+            } else {
+              showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              timer?.cancel();
+            }
+          } else if (currentTurns < Data.level_18) {
+            showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            setHighScore(); timer?.cancel();
+          } else {
+            showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            timer?.cancel();
+          }
+        } else {
+          showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+          setHighScore(); timer?.cancel();
+        }
+      } else if (_level == 19) {
+        if (Data.level_19 != 0) {
+          if (currentTurns == Data.level_19) {
+            if (gameTime < Data.time_19) {
+              showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              setHighScore(); timer?.cancel();
+            } else {
+              showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              timer?.cancel();
+            }
+          } else if (currentTurns < Data.level_19) {
+            showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            setHighScore(); timer?.cancel();
+          } else {
+            showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            timer?.cancel();
+          }
+        } else {
+          showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+          setHighScore(); timer?.cancel();
+        }
+      } else if (_level == 20) {
+        if (Data.level_20 != 0) {
+          if (currentTurns == Data.level_20) {
+            if (gameTime < Data.time_20) {
+              showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              setHighScore(); timer?.cancel();
+            } else {
+              showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+              timer?.cancel();
+            }
+          } else if (currentTurns < Data.level_20) {
+            showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            setHighScore(); timer?.cancel();
+          } else {
+            showWinDialog("$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+            timer?.cancel();
+          }
+        } else {
+          showWinDialog("   " + S.of(context).New_High_Score + "\n$currentTurns " + S.of(context).turns_in + " $gameTime " + S.of(context).seconds);
+          setHighScore(); timer?.cancel();
         }
       }
     }

@@ -142,12 +142,19 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
         myPrefs.setBool("hard2", Data.challenge_8);
       } else if (widget.challenge == 9) {
         myPrefs.setBool("hard3", Data.challenge_9);
+      } else if (widget.challenge == 10) {
+        myPrefs.setBool("expert1", Data.challenge_10);
+      } else if (widget.challenge == 11) {
+        myPrefs.setBool("expert2", Data.challenge_11);
+      } else if (widget.challenge == 12) {
+        myPrefs.setBool("expert3", Data.challenge_12);
       }
     });
   }
 
   first() {
-    for (int i = 1; i <= 8; i++) {
+    final pairs = (widget.challenge >= 10) ? 10 : 8;
+    for (int i = 1; i <= pairs; i++) {
       a.add(i.toString());
       a.add(i.toString());
     }
@@ -156,6 +163,7 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
 
   static const _challengeTimeLimit = <int, int>{
     1: 40, 3: 38, 4: 30, 6: 28, 7: 24, 9: 22,
+    10: 20, 12: 18,
   };
 
   time() {
@@ -355,6 +363,15 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
           S.of(context).turns +
           " ${22 - gameTime} " +
           S.of(context).seconds_left;
+    } else if (widget.challenge == 10) {
+      text = "${20 - gameTime} " + S.of(context).seconds_left;
+    } else if (widget.challenge == 11) {
+      text = "${24 - numberOfTurns} " + S.of(context).turns_left;
+    } else if (widget.challenge == 12) {
+      text = "${26 - numberOfTurns} " +
+          S.of(context).turns +
+          " ${18 - gameTime} " +
+          S.of(context).seconds_left;
     }
 
     return Text(
@@ -476,6 +493,37 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
               " $gameTime " +
               S.of(context).seconds);
         });
+      } else if (widget.challenge == 10) {
+        setState(() {
+          timer?.cancel();
+          Data.challenge_10 = true;
+          setHighScore();
+          showWinDialog(S.of(context).Challenge_completed_in +
+              " \n "
+                  "        $gameTime " +
+              S.of(context).seconds);
+        });
+      } else if (widget.challenge == 11) {
+        setState(() {
+          Data.challenge_11 = true;
+          setHighScore();
+          showWinDialog(S.of(context).Challenge_completed_in +
+              " \n "
+                  "        $numberOfTurns " +
+              S.of(context).turns);
+        });
+      } else if (widget.challenge == 12) {
+        setState(() {
+          timer?.cancel();
+          Data.challenge_12 = true;
+          setHighScore();
+          showWinDialog(S.of(context).Challenge_completed_in +
+              " \n "
+                  "     $numberOfTurns " +
+              S.of(context).turns +
+              " $gameTime " +
+              S.of(context).seconds);
+        });
       }
     }
 
@@ -516,6 +564,20 @@ class _ChallengesLevelState extends State<ChallengesLevel> {
       }
     } else if (widget.challenge == 9) {
       if (numberOfTurns >= 30) {
+        setState(() {
+          allow = false;
+          showWinDialog(S.of(context).Turns_are_over);
+        });
+      }
+    } else if (widget.challenge == 11) {
+      if (numberOfTurns >= 24) {
+        setState(() {
+          allow = false;
+          showWinDialog(S.of(context).Turns_are_over);
+        });
+      }
+    } else if (widget.challenge == 12) {
+      if (numberOfTurns >= 26) {
         setState(() {
           allow = false;
           showWinDialog(S.of(context).Turns_are_over);

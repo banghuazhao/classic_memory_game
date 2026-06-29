@@ -47,6 +47,15 @@ class _ChooseChallengesState extends State<ChooseChallenges> {
     if (myPrefs.getBool("hard3") != null) {
       setState(() { Data.challenge_9 = myPrefs.getBool("hard3")!; });
     }
+    if (myPrefs.getBool("expert1") != null) {
+      setState(() { Data.challenge_10 = myPrefs.getBool("expert1")!; });
+    }
+    if (myPrefs.getBool("expert2") != null) {
+      setState(() { Data.challenge_11 = myPrefs.getBool("expert2")!; });
+    }
+    if (myPrefs.getBool("expert3") != null) {
+      setState(() { Data.challenge_12 = myPrefs.getBool("expert3")!; });
+    }
   }
 
   @override
@@ -180,6 +189,39 @@ class _ChooseChallengesState extends State<ChooseChallenges> {
                 },
               ));
             }),
+            _buildChallengeWidget(context, " Challenge 10 (Expert)",
+                "Complete in 20 seconds", 10, () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return ChallengesLevel(
+                    challenge: 10,
+                    desc: "Complete in 20 seconds",
+                  );
+                },
+              )).then((value) { setState(() { getHighScore(); }); });
+            }),
+            _buildChallengeWidget(context, " Challenge 11 (Expert)",
+                "Complete in 24 turns", 11, () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return ChallengesLevel(
+                    challenge: 11,
+                    desc: "Complete in 24 turns",
+                  );
+                },
+              )).then((value) { setState(() { getHighScore(); }); });
+            }),
+            _buildChallengeWidget(context, " Challenge 12 (Expert)",
+                "Complete in 26 turns and 18 seconds", 12, () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return ChallengesLevel(
+                    challenge: 12,
+                    desc: "Complete in 26 turns and 18 seconds",
+                  );
+                },
+              )).then((value) { setState(() { getHighScore(); }); });
+            }),
           ],
         ),
       ),
@@ -207,6 +249,12 @@ class _ChooseChallengesState extends State<ChooseChallenges> {
       shouldShowPass = Data.challenge_8;
     } else if (level == 9) {
       shouldShowPass = Data.challenge_9;
+    } else if (level == 10) {
+      shouldShowPass = Data.challenge_10;
+    } else if (level == 11) {
+      shouldShowPass = Data.challenge_11;
+    } else if (level == 12) {
+      shouldShowPass = Data.challenge_12;
     }
     return GestureDetector(
       onTap: onTap,
@@ -270,8 +318,10 @@ class _ChooseChallengesState extends State<ChooseChallenges> {
       return Color(0xff7C8D6E);
     } else if ([4, 5, 6].contains(level)) {
       return Color(0xffA39A88);
-    } else {
+    } else if ([7, 8, 9].contains(level)) {
       return Color(0xff985455);
+    } else {
+      return Color(0xff5A3E6B); // Expert — deep purple
     }
   }
 }
