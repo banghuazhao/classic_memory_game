@@ -21,46 +21,53 @@ Future<void> main() async {
       FlutterError.presentError(details);
     };
 
-    Future.delayed(const Duration(seconds: 1), () {
-      AppTrackingTransparency.requestTrackingAuthorization();
-    });
-
-    MobileAds.instance.initialize();
-
-    AdsManager.debugPrintID();
+    await SharedPreferencesHelper.init();
 
     InAppReviewHelper.checkAndAskForReview();
 
-    await SharedPreferencesHelper.init();
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-      runApp(MaterialApp(
-        title: "Classic Memory Game",
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        localeResolutionCallback: (locale, supportLocales) {
-          if (locale?.languageCode == 'zh') {
-            if (locale?.scriptCode == 'Hant') {
-              return const Locale('zh', 'HK');
-            } else {
-              return const Locale('zh', '');
-            }
+    runApp(MaterialApp(
+      title: "Classic Memory Game",
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      localeResolutionCallback: (locale, supportLocales) {
+        if (locale?.languageCode == 'zh') {
+          if (locale?.scriptCode == 'Hant') {
+            return const Locale('zh', 'HK');
+          } else {
+            return const Locale('zh', '');
           }
-          return Locale('en', '');
-        },
-        theme: ThemeData(
-          primaryColor: Color(0xffC850C0),
-        ),
-        home: HomeScreen(),
-      ));
-    });
+        }
+        return Locale('en', '');
+      },
+      theme: ThemeData(
+        primaryColor: Color(0xffC850C0),
+      ),
+      home: HomeScreen(),
+    ));
   }, (error, stack) {
     debugPrint('Unhandled error: $error\n$stack');
   });
+}
+
+/// Call this after the first frame is drawn (from HomeScreen.initState via
+/// addPostFrameCallback). It requests ATT, waits for the result, then
+/// initializes MobileAds so ads are always loaded with consent info.
+Future<void> initAds() async {
+  AdsManager.debugPrintID();
+
+  // Request ATT on iOS — must happen after UI is visible so the user has
+  // context. On Android or if already determined, this is a no-op.
+  await AppTrackingTransparency.requestTrackingAuthorization();
+
+  // Initialize MobileAds only after ATT is resolved so Google can pass
+  // the correct consent signals to ad networks.
+  await MobileAds.instance.initialize();
 }

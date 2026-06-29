@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:classic_memory_game/data/data.dart';
 import 'package:classic_memory_game/generated/l10n.dart';
+import 'package:classic_memory_game/main.dart';
 import 'package:classic_memory_game/screen/challenges.dart';
 import 'package:classic_memory_game/screen/memoryGame.dart';
 import 'package:classic_memory_game/util/ads_manager.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   String _category = "Candy";
 
-  late BannerAd _ad;
+  BannerAd? _ad;
 
   bool _isAdLoaded = false;
 
@@ -48,6 +49,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
+
+    // Defer all ad + audio init to after the first frame so:
+    // 1. The UI is visible before ATT dialog appears (Apple requirement)
+    // 2. All platform plugins are fully registered before audio calls
+    WidgetsBinding.instance.addPostFrameCallback((_) => _postFrameInit());
+  }
+
+  Future<void> _postFrameInit() async {
+    // Request ATT then initialize MobileAds — must be in this order on iOS.
+    await initAds();
+
+    if (!mounted) return;
+
+    // Now MobileAds is initialized — safe to create and load ads.
     _ad = BannerAd(
       adUnitId: AdsManager.bannerAdUnitId,
       size: AdSize.banner,
@@ -61,19 +77,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         },
       ),
     );
+    _ad!.load();
 
-    _ad.load();
-
-    WidgetsBinding.instance.addObserver(this);
-    // Defer audio init to after the first frame so all platform plugins are ready
-    WidgetsBinding.instance.addPostFrameCallback((_) => getHighScore());
-    // musicName();
-    // showAds();
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
     _appLifecycleReactor = AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
     WidgetsBinding.instance.addObserver(_appLifecycleReactor!);
 
     _createInterstitialAd();
+
+    // Init audio after ads are set up.
+    await getHighScore();
   }
 
   void _createInterstitialAd() {
@@ -134,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     timer?.cancel();
-    _ad.dispose();
+    _ad?.dispose();
     _interstitialAd?.dispose();
     if (_appLifecycleReactor != null) {
       WidgetsBinding.instance.removeObserver(_appLifecycleReactor!);
@@ -517,12 +530,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
               ],
             ),
-            if (_isAdLoaded)
+            if (_isAdLoaded && _ad != null)
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: AdWidget(ad: _ad),
+                  child: AdWidget(ad: _ad!),
                   height: 50.0,
                 ),
               ),
