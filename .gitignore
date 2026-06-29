@@ -52,3 +52,4 @@ ios/Flutter/AdsConfig.xcconfig
 # Fastlane — local config and generated artifacts
 android/fastlane/report.xml
 android/fastlane/Appfile
+ios/fastlane/Appfile
