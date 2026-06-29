@@ -1,0 +1,12 @@
+Background Music
+- 6 tracks to choose from: Calm, Upbeat, Peaceful, Classical, Rain, and Forest
+- Toggle music and sound effects independently in Settings
+
+More Content
+- 5 new levels (16-20) with larger 12-pair boards
+- 3 new Expert challenges (C10-C12) - the hardest yet
+
+Polish
+- Smooth card flip and match animations
+- Improved back button with exit confirmation so you never lose progress by accident
+- Various difficulty and UI improvements
